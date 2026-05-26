@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Оптовий каталог шин — TireTop</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="На початок каталогу">
+        <span class="brand-mark">T</span>
+        <span>
+          <strong>TyreStock</strong>
+          <small>оптовий каталог</small>
+        </span>
+      </a>
+
+      <nav class="quick-actions" aria-label="Швидкі контакти">
+        <button class="logout-button" id="logoutButton" type="button" hidden>Вийти</button>
+        <a class="contact-button viber" id="headerViber" href="#" target="_blank" rel="noreferrer" aria-label="Написати у Viber">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12.02 2.4c-5.08 0-9.2 3.55-9.2 7.94 0 2.45 1.31 4.71 3.46 6.21l-.74 3.37 3.72-1.78c.88.2 1.8.31 2.76.31 5.08 0 9.2-3.56 9.2-7.95 0-4.38-4.12-7.93-9.2-7.93Zm0 14.42c-.86 0-1.69-.11-2.45-.34l-.36-.11-1.83.88.36-1.63-.46-.29c-1.86-1.16-2.93-2.98-2.93-4.99 0-3.48 3.44-6.31 7.67-6.31s7.68 2.83 7.68 6.31c0 3.49-3.45 6.48-7.68 6.48Zm4.25-4.68c-.23-.11-1.36-.67-1.57-.75-.21-.08-.36-.11-.51.11-.15.23-.59.75-.72.9-.13.15-.27.17-.5.06-.23-.11-.97-.36-1.85-1.14-.68-.61-1.14-1.36-1.28-1.59-.13-.23-.01-.35.1-.46.1-.1.23-.27.34-.4.11-.13.15-.23.23-.38.08-.15.04-.29-.02-.4-.06-.11-.51-1.23-.7-1.69-.18-.44-.37-.38-.51-.39h-.44c-.15 0-.4.06-.61.29-.21.23-.8.78-.8 1.91s.82 2.22.93 2.37c.11.15 1.61 2.46 3.9 3.45.55.24.97.38 1.3.49.55.17 1.05.15 1.45.09.44-.07 1.36-.55 1.55-1.09.19-.53.19-.99.13-1.09-.06-.09-.21-.15-.44-.26Z" />
+          </svg>
+        </a>
+        <a class="contact-button telegram" id="headerTelegram" href="#" target="_blank" rel="noreferrer" aria-label="Написати у Telegram">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M21.74 4.88 18.52 20.1c-.24 1.07-.88 1.33-1.78.83l-4.92-3.63-2.37 2.28c-.26.26-.48.48-.98.48l.35-5.01 9.12-8.24c.4-.35-.09-.55-.62-.2L6.05 13.7 1.2 12.18c-1.05-.33-1.07-1.05.22-1.55L20.39 3.3c.88-.32 1.65.21 1.35 1.58Z" />
+          </svg>
+        </a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="finder-section" aria-label="Підбір шин">
+        <section class="toolbar" aria-label="Фільтри каталогу">
+          <label>
+            <span>Ширина</span>
+            <select id="widthFilter">
+              <option value="all">Усі</option>
+            </select>
+          </label>
+
+          <label>
+            <span>Профіль</span>
+            <select id="profileFilter">
+              <option value="all">Усі</option>
+            </select>
+          </label>
+
+          <label>
+            <span>Діаметр</span>
+            <select id="diameterFilter">
+              <option value="all">Усі</option>
+            </select>
+          </label>
+
+          <label>
+            <span>Сезон</span>
+            <select id="seasonFilter">
+              <option value="all">Усі сезони</option>
+              <option value="Літо">Літо</option>
+              <option value="Зима">Зима</option>
+              <option value="Всесезон">Всесезон</option>
+            </select>
+          </label>
+
+          <label>
+            <span>Бренд</span>
+            <select id="brandFilter">
+              <option value="all">Усі бренди</option>
+            </select>
+          </label>
+
+          <button class="pick-button" id="applyFilters" type="button">Підібрати</button>
+        </section>
+
+        <div class="finder-bottom">
+          <label class="search-field">
+            <span>Пошук</span>
+            <input id="searchInput" type="search" placeholder="Бренд, розмір, модель..." autocomplete="off" />
+          </label>
+
+          <label class="stock-toggle">
+            <input id="availableOnly" type="checkbox" checked />
+            <span>Тільки в наявності</span>
+          </label>
+
+          <div class="stock-pill">
+            <span>На складі</span>
+            <strong id="stockTotal">0</strong>
+          </div>
+
+          <button class="filter-reset-button" id="resetFilters" type="button">Скинути фільтри</button>
+        </div>
+      </section>
+
+      <section class="recommendations-section" id="recommendationsSection" hidden>
+        <div class="section-title">
+          <h2>Рекомендації</h2>
+          <p>Позиції, які варто запропонувати клієнтам зараз</p>
+        </div>
+        <section class="catalog-grid recommendation-grid" id="recommendationGrid" aria-live="polite"></section>
+      </section>
+
+      <section class="catalog-head">
+        <div>
+          <h2>Каталог</h2>
+          <p id="resultCount">0 товарів</p>
+        </div>
+        <div class="view-toggle" aria-label="Вигляд каталогу">
+          <button class="active" id="listViewButton" type="button">Список</button>
+          <button id="cardViewButton" type="button">Картки</button>
+        </div>
+      </section>
+
+      <section class="catalog-grid" id="catalogGrid" aria-live="polite"></section>
+      <p class="empty-state" id="emptyState" hidden>За цими фільтрами товарів не знайдено.</p>
+    </main>
+
+    <div class="photo-modal" id="photoModal" hidden aria-modal="true" role="dialog" aria-label="Перегляд фото">
+      <button class="photo-modal-close" id="photoModalClose" type="button" aria-label="Закрити фото">&times;</button>
+      <button class="photo-modal-arrow photo-modal-prev" id="photoModalPrev" type="button" aria-label="Попереднє фото">&lt;</button>
+      <img class="photo-modal-image" id="photoModalImage" src="" alt="" />
+      <button class="photo-modal-arrow photo-modal-next" id="photoModalNext" type="button" aria-label="Наступне фото">&gt;</button>
+    </div>
+
+    <form class="netlify-detect-form" name="tyre-order" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/success.html">
+      <input type="hidden" name="form-name" value="tyre-order" />
+      <input name="bot-field" />
+      <input name="email" />
+      <input name="subject" />
+      <input name="product" />
+      <input name="price" />
+      <input name="year" />
+      <input name="country" />
+      <input name="stock" />
+      <input name="client_name" />
+      <input name="client_phone" />
+      <input name="quantity" />
+      <textarea name="comment"></textarea>
+    </form>
+
+    <div class="order-modal" id="orderModal" hidden aria-modal="true" role="dialog" aria-label="Оформити замовлення">
+      <form class="order-card" id="orderForm">
+        <button class="order-close" id="orderClose" type="button" aria-label="Закрити">&times;</button>
+        <div>
+          <p class="eyebrow">Замовлення на пошту</p>
+          <h2>Оформити заявку</h2>
+          <p class="order-product" id="orderProduct"></p>
+        </div>
+
+        <label>
+          <span>Ім'я</span>
+          <input id="orderName" name="client_name" type="text" autocomplete="name" required />
+        </label>
+
+        <label>
+          <span>Телефон</span>
+          <input id="orderPhone" name="client_phone" type="tel" autocomplete="tel" required />
+        </label>
+
+        <label>
+          <span>Кількість</span>
+          <input id="orderQuantity" name="quantity" type="number" min="1" value="1" required />
+        </label>
+
+        <label>
+          <span>Коментар</span>
+          <textarea id="orderComment" name="comment" rows="3" placeholder="Наприклад: потрібна доставка або уточнення по даті"></textarea>
+        </label>
+
+        <button class="order-submit" type="submit">Відправити заявку</button>
+        <p class="order-status" id="orderStatus" hidden></p>
+      </form>
+    </div>
+
+    <script src="auth.js"></script>
+    <script src="products.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
