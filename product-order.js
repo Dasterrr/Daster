@@ -4,6 +4,7 @@
   const closeButton = document.getElementById("productOrderClose");
   const status = document.getElementById("productOrderStatus");
   const productText = document.getElementById("productOrderProduct");
+  const productPrice = document.getElementById("productOrderPrice");
   const selectedProduct = document.getElementById("productOrderSelectedProduct");
   const retailPrice = document.getElementById("productOrderRetailPrice");
   const sizeInput = document.getElementById("productOrderSize");
@@ -34,9 +35,10 @@
     status.textContent = "";
     status.className = "order-status";
 
-    productText.textContent = product
-      ? `Заявка по позиції: ${product}${formattedPrice ? `, ${formattedPrice} грн` : ""}. Залиште контакт, і менеджер підтвердить наявність.`
-      : "Залиште контакт, і менеджер підтвердить наявність та допоможе з оформленням.";
+    productText.textContent = product || "Підбір шин менеджером";
+    if (productPrice) {
+      productPrice.textContent = formattedPrice ? `${formattedPrice} грн` : "Менеджер уточнить ціну та наявність";
+    }
 
     modal.hidden = false;
     document.body.classList.add("modal-open");
@@ -61,11 +63,24 @@
       subject: selectedProduct.value
         ? `Роздрібне замовлення: ${selectedProduct.value}`
         : "Заявка з роздрібного сайту TireTop",
-      client_name: document.getElementById("productOrderName")?.value || "",
+      client_name: [
+        document.getElementById("productOrderLastName")?.value || "",
+        document.getElementById("productOrderFirstName")?.value || "",
+        document.getElementById("productOrderMiddleName")?.value || ""
+      ].filter(Boolean).join(" "),
+      first_name: document.getElementById("productOrderFirstName")?.value || "",
+      last_name: document.getElementById("productOrderLastName")?.value || "",
+      middle_name: document.getElementById("productOrderMiddleName")?.value || "",
       client_phone: document.getElementById("productOrderPhone")?.value || "",
+      client_email: document.getElementById("productOrderEmail")?.value || "",
       car_or_size: sizeInput.value || "",
       selected_product: selectedProduct.value || "",
       retail_price: retailPrice.value || "",
+      quantity: document.getElementById("productOrderQuantity")?.value || "",
+      delivery_method: document.getElementById("productOrderDelivery")?.value || "",
+      delivery_city: document.getElementById("productOrderCity")?.value || "",
+      delivery_branch: document.getElementById("productOrderBranch")?.value || "",
+      payment_method: document.getElementById("productOrderPayment")?.value || "",
       comment: document.getElementById("productOrderComment")?.value || "",
       source: "product-page"
     };

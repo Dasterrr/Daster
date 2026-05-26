@@ -2,11 +2,20 @@ const publicOrderModal = document.querySelector("#publicOrderModal");
 const publicOrderForm = document.querySelector("#publicOrderForm");
 const publicOrderClose = document.querySelector("#publicOrderClose");
 const publicOrderStatus = document.querySelector("#publicOrderStatus");
-const publicOrderName = document.querySelector("#publicOrderName");
+const publicOrderFirstName = document.querySelector("#publicOrderFirstName");
+const publicOrderLastName = document.querySelector("#publicOrderLastName");
+const publicOrderMiddleName = document.querySelector("#publicOrderMiddleName");
 const publicOrderPhone = document.querySelector("#publicOrderPhone");
+const publicOrderEmail = document.querySelector("#publicOrderEmail");
 const publicOrderSize = document.querySelector("#publicOrderSize");
+const publicOrderQuantity = document.querySelector("#publicOrderQuantity");
+const publicOrderDelivery = document.querySelector("#publicOrderDelivery");
+const publicOrderPayment = document.querySelector("#publicOrderPayment");
+const publicOrderCity = document.querySelector("#publicOrderCity");
+const publicOrderBranch = document.querySelector("#publicOrderBranch");
 const publicOrderComment = document.querySelector("#publicOrderComment");
 const publicOrderProduct = document.querySelector("#publicOrderProduct");
+const publicOrderPrice = document.querySelector("#publicOrderPrice");
 const publicOrderSelectedProduct = document.querySelector("#publicOrderSelectedProduct");
 const publicOrderRetailPrice = document.querySelector("#publicOrderRetailPrice");
 const retailGrid = document.querySelector("#retailGrid");
@@ -30,6 +39,10 @@ const heroSliderDots = document.querySelector("#heroSliderDots");
 
 const publicFallbackImage = "https://images.unsplash.com/photo-1578844251758-2f71da64c96f?auto=format&fit=crop&w=900&q=80";
 const siteOrigin = "https://tiretop.store";
+const publicContacts = {
+  viber: "viber://chat?number=%2B380689159643",
+  telegram: "https://t.me/Nazarii_Polivoda"
+};
 const publicMoney = new Intl.NumberFormat("uk-UA");
 const initialVisibleRows = 7;
 let publicProducts = [];
@@ -103,6 +116,33 @@ function normalizedSizeSearch(value) {
   return match ? `${match[1]}-${match[2]}-r${match[3]}` : "";
 }
 
+function publicTrimMeta(value, max) {
+  const text = String(value || "").replace(/\s+/g, " ").trim();
+  if (text.length <= max) return text;
+  const cut = text.slice(0, max - 3);
+  const lastSpace = cut.lastIndexOf(" ");
+  return `${cut.slice(0, lastSpace > 60 ? lastSpace : max - 3)}...`;
+}
+
+function publicMetaTitle(value) {
+  let title = String(value || "").replace(/\s+/g, " ").trim();
+  if (title.length < 50 && title.includes("| TireTop")) {
+    title = title.replace(" | TireTop", " купити з підбором | TireTop");
+  }
+  if (title.length < 50 && title.includes("| TireTop")) {
+    title = title.replace(" | TireTop", " ціна та наявність | TireTop");
+  }
+  return publicTrimMeta(title, 65);
+}
+
+function publicMetaDescription(value) {
+  let text = String(value || "").replace(/\s+/g, " ").trim();
+  while (text.length < 120) {
+    text += " Консультація, самовивіз у Ковелі та доставка по Україні.";
+  }
+  return publicTrimMeta(text, 160);
+}
+
 function productDescription(product) {
   const name = publicProductName(product);
   const size = sizeLabel(product);
@@ -117,6 +157,15 @@ function retailPrice(product) {
 
 function tyreLabelDetailsUrl(product) {
   return product.eprelUrl || "/eu-tyre-label/";
+}
+
+function publicSeasonBadge(season) {
+  const value = String(season || "").trim().toLowerCase();
+  if (!value) return "";
+  if (value.includes("зим") || value.includes("winter")) return `<span class="season-corner-badge season-winter" title="Зима" aria-label="Зима">❄</span>`;
+  if (value.includes("всес") || value.includes("all") || value.includes("m+s")) return `<span class="season-corner-badge season-all" title="Всесезон" aria-label="Всесезон">☀❄</span>`;
+  if (value.includes("літ") || value.includes("лет") || value.includes("summer")) return `<span class="season-corner-badge season-summer" title="Літо" aria-label="Літо">☀</span>`;
+  return "";
 }
 
 function tyreLabelAdditionalProperties(product) {
@@ -166,7 +215,7 @@ function tyreLabelBlock(product) {
   }
 
   const visual = product.labelImageUrl
-    ? `<img class="eu-label-image" src="${publicEscape(product.labelImageUrl)}" alt="${publicEscape(imageAlt)}" loading="lazy">`
+    ? `<img class="eu-label-image" src="${publicEscape(product.labelImageUrl)}" alt="${publicEscape(imageAlt)}" loading="lazy" decoding="async">`
     : `<div class="eu-label-card" role="img" aria-label="${publicEscape(imageAlt)}">
         <div>
           <span>Економія пального</span>
@@ -257,9 +306,13 @@ function publicProductsFromGoogleTable(table) {
 }
 
 function publicProductsFromFallback() {
-  if (typeof PRODUCTS === "undefined" || !Array.isArray(PRODUCTS)) return [];
+  const fallbackProducts = Array.isArray(window.TIRETOP_PRODUCT_CACHE)
+    ? window.TIRETOP_PRODUCT_CACHE
+    : (typeof PRODUCTS !== "undefined" && Array.isArray(PRODUCTS) ? PRODUCTS : []);
 
-  return PRODUCTS.map((product, index) => {
+  if (!fallbackProducts.length) return [];
+
+  return fallbackProducts.map((product, index) => {
     const name = product.name || product.product_name || "";
     const size = publicParseSize(name);
 
@@ -295,15 +348,25 @@ function publicProductsFromFallback() {
 }
 
 async function loadPublicProducts() {
+  const fallbackProducts = publicProductsFromFallback();
+  if (fallbackProducts.length) {
+    publicProducts = fallbackProducts;
+  }
+
   try {
     if (typeof loadSheetWithJsonp !== "function" || typeof sheetConfig === "undefined") {
       throw new Error("Google Sheets loader is not available");
     }
 
-    publicProducts = publicProductsFromGoogleTable(await loadSheetWithJsonp(sheetConfig.sheetName, "publicProductsLoaded"));
+    const sheetProducts = publicProductsFromGoogleTable(await loadSheetWithJsonp(sheetConfig.sheetName, "publicProductsLoaded"));
+    if (sheetProducts.length) {
+      publicProducts = sheetProducts;
+    }
   } catch (error) {
     console.warn("Using public product fallback:", error);
-    publicProducts = publicProductsFromFallback();
+    if (!publicProducts.length) {
+      publicProducts = fallbackProducts;
+    }
   }
 }
 
@@ -387,23 +450,26 @@ function retailCard(product, options = {}) {
   const price = retailPrice(product);
   const size = [product.width, product.profile, product.diameter ? `R${product.diameter}` : ""].filter(Boolean).join("/");
   const badge = product.recommendation_label || (product.recommended ? "Рекомендація" : product.season || "TireTop");
+  const seasonIcon = publicSeasonBadge(`${product.season} ${name}`);
+  const detailsUrl = `/tyres/${publicEscape(productSlug(product))}/`;
   const message = `Добрий день. Цікавить ${name}. Є в наявності?`;
   const encodedMessage = encodeURIComponent(message);
   const viberUrl = `viber://forward?text=${encodedMessage}`;
-  const telegramUrl = `${CONTACTS.telegram}?text=${encodedMessage}`;
+  const telegramUrl = `${publicContacts.telegram}?text=${encodedMessage}`;
 
   return `
     <article class="retail-card ${options.recommended ? "retail-recommended-card" : ""}">
-      <div class="retail-image">
-        <img src="${publicEscape(image)}" alt="${publicEscape(name)}" loading="lazy" onerror="this.onerror=null;this.src='${publicFallbackImage}'">
+      <a class="retail-image retail-image-link" href="${detailsUrl}" aria-label="${publicEscape(name)}">
+        ${seasonIcon}
+        <img src="${publicEscape(image)}" alt="${publicEscape(name)}" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='${publicFallbackImage}'">
         <span class="retail-badge">${publicEscape(badge)}</span>
-      </div>
+      </a>
       <div class="retail-body">
         <div class="retail-title-row">
           <p class="retail-brand">${publicEscape(product.brand || "TireTop")}</p>
           <strong class="retail-price">${price ? `${publicEscape(publicMoney.format(price))} грн` : "Ціну уточнюйте"}</strong>
         </div>
-        <h3>${publicEscape(name)}</h3>
+        <h3><a href="${detailsUrl}">${publicEscape(name)}</a></h3>
         <div class="retail-meta">
           <span>${publicEscape(product.season || "Сезон уточнюйте")}</span>
           <span>${product.year ? publicEscape(product.year) : "Рік уточнюйте"}</span>
@@ -460,7 +526,7 @@ function detectPageMode() {
 }
 
 function setMeta(title, description, path = window.location.pathname) {
-  document.title = title;
+  document.title = publicMetaTitle(title);
 
   let metaDescription = document.querySelector("meta[name='description']");
   if (!metaDescription) {
@@ -468,7 +534,7 @@ function setMeta(title, description, path = window.location.pathname) {
     metaDescription.name = "description";
     document.head.append(metaDescription);
   }
-  metaDescription.content = description;
+  metaDescription.content = publicMetaDescription(description);
 
   let canonical = document.querySelector("link[rel='canonical']");
   if (!canonical) {
@@ -515,6 +581,11 @@ function setLocalBusinessJsonLd() {
       addressLocality: "Ковель",
       addressCountry: "UA"
     },
+    hasMap: "https://maps.app.goo.gl/aqwxs6KGZnPAjRuq8",
+    sameAs: [
+      "https://maps.app.goo.gl/aqwxs6KGZnPAjRuq8",
+      "https://www.tiktok.com/@tire.top"
+    ],
     description: "TireTop - підбір, продаж і консультація по шинах у Ковелі з доставкою по Україні."
   });
 }
@@ -555,7 +626,7 @@ function renderProductPage(product) {
   productPage.innerHTML = `
     <article class="product-detail">
       <div class="product-detail-image">
-        <img src="${publicEscape(image)}" alt="${publicEscape(name)}" loading="lazy">
+        <img src="${publicEscape(image)}" alt="${publicEscape(name)}" loading="lazy" decoding="async">
       </div>
       <div class="product-detail-body">
         <p class="eyebrow">${publicEscape(product.brand || "TireTop")}</p>
@@ -572,7 +643,7 @@ function renderProductPage(product) {
         </div>
         <div class="retail-card-links">
           <a href="viber://forward?text=${message}" target="_blank" rel="noreferrer">Viber</a>
-          <a href="${publicEscape(CONTACTS.telegram)}?text=${message}" target="_blank" rel="noreferrer">Telegram</a>
+          <a href="${publicEscape(publicContacts.telegram)}?text=${message}" target="_blank" rel="noreferrer">Telegram</a>
         </div>
         <button class="public-primary public-order-button" type="button" data-product="${publicEscape(name)}" data-price="${publicEscape(price)}">Замовити</button>
       </div>
@@ -593,7 +664,7 @@ function applyPageMode() {
 
   if (pageMode.type === "brand") {
     const brand = pageMode.value.charAt(0).toUpperCase() + pageMode.value.slice(1);
-    setMeta(`Шини ${brand} купити в Ковелі | ${titleBase}`, `Шини ${brand} в наявності у Ковелі. Актуальні ціни, підбір, консультація, самовивіз або доставка.`, `/brand/${pageMode.value}/`);
+    setMeta(`${brand} шини в Ковелі | ${titleBase}`, `${brand} шини у Ковелі з актуальними цінами, фото та підбором під авто. TireTop допоможе звірити розмір, сезон і доставку.`, `/brand/${pageMode.value}/`);
     breadcrumbJsonLd([{ name: "Головна", path: "/" }, { name: `Шини ${brand}`, path: `/brand/${pageMode.value}/` }]);
   } else if (pageMode.type === "size") {
     const label = pageMode.value.replace(/-/g, " ").replace("r", "R").toUpperCase();
@@ -603,20 +674,20 @@ function applyPageMode() {
       retailProfile.value = sizeParts[2];
       retailDiameter.value = sizeParts[3];
     }
-    setMeta(`Шини ${label} купити в Ковелі | ${titleBase}`, `Шини ${label} у Ковелі. Перевіряйте наявність, ціну, рік, країну виробництва та залишайте заявку онлайн.`, `/size/${pageMode.value}/`);
+    setMeta(`Шини ${label} в Ковелі | ${titleBase}`, `Шини ${label} у Ковелі в каталозі TireTop. Перевіряйте фото, ціну, рік, країну виробництва та залишайте заявку онлайн.`, `/size/${pageMode.value}/`);
     breadcrumbJsonLd([{ name: "Головна", path: "/" }, { name: `Шини ${label}`, path: `/size/${pageMode.value}/` }]);
   } else if (pageMode.type === "product") {
     const product = productBySlug(pageMode.value);
     if (product) {
       const name = publicProductName(product);
-      setMeta(`${name} купити в Ковелі | ${titleBase}`, `${name} в наявності у Ковелі. Консультація, підбір шин, самовивіз або доставка.`, `/tyres/${pageMode.value}/`);
+      setMeta(`Купити ${name} | ${titleBase}`, `${name} в наявності у TireTop. Роздрібна ціна, фото, підбір під авто, самовивіз у Ковелі або доставка по Україні.`, `/tyres/${pageMode.value}/`);
       renderProductPage(product);
     }
   } else if (pageMode.type === "catalog") {
-    setMeta(`Каталог шин у Ковелі | ${titleBase}`, "Каталог шин TireTop у Ковелі: фільтри за брендом, сезоном, розміром, ціною та наявністю.", "/catalog/");
+    setMeta(`Каталог шин в Ковелі | ${titleBase}`, "Каталог шин TireTop у Ковелі: фільтри за брендом, сезоном і розміром, актуальні ціни, фото та заявка онлайн.", "/catalog/");
     breadcrumbJsonLd([{ name: "Головна", path: "/" }, { name: "Каталог", path: "/catalog/" }]);
   } else {
-    setMeta(`Шини у Ковелі - ${titleBase}`, "TireTop - шини у Ковелі. Роздрібний каталог шин з актуальною наявністю, фото, цінами та швидкою заявкою.", "/");
+    setMeta(`Шини в Ковелі | ${titleBase}`, "Шини у Ковелі з актуальними цінами, фото та підбором під авто. TireTop допоможе звірити розмір, сезон і доставку по Україні.", "/");
     setLocalBusinessJsonLd();
     breadcrumbJsonLd([{ name: "Головна", path: "/" }]);
   }
@@ -627,9 +698,8 @@ function openPublicOrderModal(productName = "", price = "") {
   publicOrderStatus.textContent = "";
   publicOrderSelectedProduct.value = productName;
   publicOrderRetailPrice.value = price;
-  publicOrderProduct.textContent = productName
-    ? `Заявка по позиції: ${productName}${price ? `, ${publicMoney.format(Number(price))} грн` : ""}. Залиште контакт, і менеджер підтвердить наявність.`
-    : "Залиште контакт, і менеджер допоможе підібрати варіант під авто або розмір.";
+  publicOrderProduct.textContent = productName || "Підбір шин менеджером";
+  publicOrderPrice.textContent = price ? `${publicMoney.format(Number(price))} грн` : "Менеджер уточнить ціну та наявність";
   publicOrderSize.value = productName;
   publicOrderModal.hidden = false;
   document.body.classList.add("modal-open");
@@ -652,11 +722,20 @@ async function submitPublicOrder(event) {
     "form-name": "public-order",
     email: "tiretop94@gmail.com",
     subject: publicOrderSelectedProduct.value ? `Роздрібне замовлення: ${publicOrderSelectedProduct.value}` : "Заявка з роздрібного сайту TireTop",
-    client_name: publicOrderName.value,
+    client_name: [publicOrderLastName.value, publicOrderFirstName.value, publicOrderMiddleName.value].filter(Boolean).join(" "),
+    first_name: publicOrderFirstName.value,
+    last_name: publicOrderLastName.value,
+    middle_name: publicOrderMiddleName.value,
     client_phone: publicOrderPhone.value,
+    client_email: publicOrderEmail.value,
     car_or_size: publicOrderSize.value,
     selected_product: publicOrderSelectedProduct.value,
     retail_price: publicOrderRetailPrice.value,
+    quantity: publicOrderQuantity.value,
+    delivery_method: publicOrderDelivery.value,
+    delivery_city: publicOrderCity.value,
+    delivery_branch: publicOrderBranch.value,
+    payment_method: publicOrderPayment.value,
     comment: publicOrderComment.value,
     source: "retail-site"
   };
@@ -765,6 +844,15 @@ retailMore.addEventListener("click", () => {
 window.addEventListener("resize", () => {
   if (!catalogExpanded) renderRetailCatalog();
 });
+
+const cachedPublicProducts = publicProductsFromFallback();
+if (cachedPublicProducts.length) {
+  publicProducts = cachedPublicProducts;
+  initRetailFilters();
+  applyPageMode();
+  renderRetailRecommendations();
+  renderRetailCatalog();
+}
 
 loadPublicProducts().then(() => {
   initRetailFilters();
