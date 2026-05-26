@@ -29,6 +29,11 @@ const retailProfile = document.querySelector("#retailProfile");
 const retailDiameter = document.querySelector("#retailDiameter");
 const retailSeason = document.querySelector("#retailSeason");
 const retailBrand = document.querySelector("#retailBrand");
+const retailPriceMin = document.querySelector("#retailPriceMin");
+const retailPriceMax = document.querySelector("#retailPriceMax");
+const retailCountry = document.querySelector("#retailCountry");
+const retailYear = document.querySelector("#retailYear");
+const retailSort = document.querySelector("#retailSort");
 const retailReset = document.querySelector("#retailReset");
 const retailSearchButton = document.querySelector(".retail-search-button");
 const productPage = document.querySelector("#productPage");
@@ -116,6 +121,22 @@ function normalizedSizeSearch(value) {
   return match ? `${match[1]}-${match[2]}-r${match[3]}` : "";
 }
 
+function normalizeCatalogSeason(value) {
+  const text = String(value || "").trim().toLowerCase();
+  if (!text || text === "all") return "all";
+  if (["summer", "літо", "lito"].includes(text)) return "Літо";
+  if (["winter", "зима", "zyma"].includes(text)) return "Зима";
+  if (["allseason", "all-season", "всесезон", "всесезонні"].includes(text)) return "Всесезон";
+  return value;
+}
+
+function setSelectValue(select, value) {
+  if (!select || value === undefined || value === null || value === "") return;
+  const normalized = String(value).trim().toLowerCase();
+  const option = [...select.options].find((item) => item.value.toLowerCase() === normalized || item.textContent.toLowerCase() === normalized);
+  if (option) select.value = option.value;
+}
+
 function publicTrimMeta(value, max) {
   const text = String(value || "").replace(/\s+/g, " ").trim();
   if (text.length <= max) return text;
@@ -125,13 +146,7 @@ function publicTrimMeta(value, max) {
 }
 
 function publicMetaTitle(value) {
-  let title = String(value || "").replace(/\s+/g, " ").trim();
-  if (title.length < 50 && title.includes("| TireTop")) {
-    title = title.replace(" | TireTop", " купити з підбором | TireTop");
-  }
-  if (title.length < 50 && title.includes("| TireTop")) {
-    title = title.replace(" | TireTop", " ціна та наявність | TireTop");
-  }
+  const title = String(value || "").replace(/\s+/g, " ").trim();
   return publicTrimMeta(title, 65);
 }
 
@@ -389,12 +404,16 @@ function initRetailFilters() {
   const diameters = [...new Set(source.map((product) => product.diameter).filter(Boolean))].sort((a, b) => Number(a) - Number(b));
   const seasons = [...new Set(source.map((product) => product.season).filter(Boolean))].sort();
   const brands = [...new Set(source.map((product) => product.brand).filter(Boolean))].sort();
+  const countries = [...new Set(source.map((product) => product.country).filter(Boolean))].sort();
+  const years = [...new Set(source.map((product) => product.year).filter(Boolean))].sort((a, b) => Number(b) - Number(a));
 
   fillPublicSelect(retailWidth, widths);
   fillPublicSelect(retailProfile, profiles);
   fillPublicSelect(retailDiameter, diameters, '"');
   fillPublicSelect(retailSeason, seasons);
   fillPublicSelect(retailBrand, brands);
+  fillPublicSelect(retailCountry, countries);
+  fillPublicSelect(retailYear, years);
 }
 
 function filteredPublicProducts() {
@@ -404,11 +423,17 @@ function filteredPublicProducts() {
   const diameter = retailDiameter.value;
   const season = retailSeason.value;
   const brand = retailBrand.value;
+  const country = retailCountry?.value || "all";
+  const year = retailYear?.value || "all";
+  const minPrice = publicToNumber(retailPriceMin?.value);
+  const maxPrice = publicToNumber(retailPriceMax?.value);
+  const sort = retailSort?.value || "default";
   const sizeQuery = normalizedSizeSearch(query);
 
   return publicProducts.filter((product) => {
     const name = publicProductName(product);
-    const searchable = `${name} ${product.brand} ${product.season} ${product.country} ${product.year}`.toLowerCase();
+    const price = retailPrice(product);
+    const searchable = `${name} ${product.brand} ${product.model || ""} ${product.season} ${product.country} ${product.year}`.toLowerCase();
     const matchesQuery = !query || searchable.includes(query) || (sizeQuery && sizeSlug(product) === sizeQuery);
 
     return matchesQuery
@@ -417,10 +442,18 @@ function filteredPublicProducts() {
       && (diameter === "all" || product.diameter === diameter)
       && (season === "all" || product.season === season)
       && (brand === "all" || product.brand === brand)
+      && (country === "all" || product.country === country)
+      && (year === "all" || String(product.year) === String(year))
+      && (!minPrice || price >= minPrice)
+      && (!maxPrice || price <= maxPrice)
       && product.stock > 0
       && (pageMode.type !== "brand" || slugify(product.brand) === pageMode.value)
       && (pageMode.type !== "size" || sizeSlug(product) === pageMode.value);
   }).sort((a, b) => {
+    if (sort === "price-asc") return retailPrice(a) - retailPrice(b);
+    if (sort === "price-desc") return retailPrice(b) - retailPrice(a);
+    if (sort === "brand") return `${a.brand} ${publicProductName(a)}`.localeCompare(`${b.brand} ${publicProductName(b)}`, "uk");
+    if (sort === "year-desc") return Number(b.year || 0) - Number(a.year || 0);
     if (a.stock > 0 && b.stock <= 0) return -1;
     if (a.stock <= 0 && b.stock > 0) return 1;
     if (a.recommended !== b.recommended) return a.recommended ? -1 : 1;
@@ -502,14 +535,20 @@ function renderRetailCatalog() {
   if (!retailGrid) return;
 
   const products = filteredPublicProducts();
-  const visibleLimit = initialVisibleCount();
+  const visibleLimit = pageMode.type === "catalog" ? products.length : initialVisibleCount();
   const visibleProducts = catalogExpanded ? products : products.slice(0, visibleLimit);
 
-  retailGrid.innerHTML = visibleProducts.map((product) => retailCard(product)).join("");
+  retailGrid.innerHTML = visibleProducts.length
+    ? visibleProducts.map((product) => retailCard(product)).join("")
+    : `<div class="retail-empty-state">
+        <h3>За цими параметрами шин не знайдено.</h3>
+        <p>Напишіть нам — підберемо варіанти вручну.</p>
+        <a class="public-primary" href="viber://chat?number=%2B380689159643">Написати в Viber</a>
+      </div>`;
   retailNote.textContent = products.length
     ? "Фото можна змінювати у Google Sheets через колонку image_url. Роздрібна ціна береться з колонки retail_price."
     : "За такими фільтрами нічого не знайдено. Спробуйте скинути фільтри або залиште заявку на підбір.";
-  retailMore.hidden = catalogExpanded || products.length <= visibleLimit;
+  retailMore.hidden = pageMode.type === "catalog" || catalogExpanded || products.length <= visibleLimit;
 
   attachPublicOrderButtons();
 }
@@ -588,6 +627,52 @@ function setLocalBusinessJsonLd() {
     ],
     description: "TireTop - підбір, продаж і консультація по шинах у Ковелі з доставкою по Україні."
   });
+}
+
+function applyCatalogUrlFilters() {
+  if (pageMode.type !== "catalog") return;
+
+  const params = new URLSearchParams(window.location.search);
+  const size = params.get("size");
+  const sizeParts = size?.match(/^(\d{3})-(\d{2})-r(\d{2})$/i);
+
+  setSelectValue(retailBrand, params.get("brand"));
+  setSelectValue(retailSeason, normalizeCatalogSeason(params.get("season")));
+  if (sizeParts) {
+    setSelectValue(retailWidth, sizeParts[1]);
+    setSelectValue(retailProfile, sizeParts[2]);
+    setSelectValue(retailDiameter, sizeParts[3]);
+  } else {
+    setSelectValue(retailWidth, params.get("width"));
+    setSelectValue(retailProfile, params.get("profile"));
+    setSelectValue(retailDiameter, params.get("diameter"));
+  }
+  setSelectValue(retailCountry, params.get("country"));
+  setSelectValue(retailYear, params.get("year") || params.get("dot"));
+  if (retailPriceMin && params.get("priceMin")) retailPriceMin.value = params.get("priceMin");
+  if (retailPriceMax && params.get("priceMax")) retailPriceMax.value = params.get("priceMax");
+  if (retailSearch && (params.get("q") || params.get("search"))) retailSearch.value = params.get("q") || params.get("search");
+  setSelectValue(retailSort, params.get("sort"));
+}
+
+function updateCatalogUrlFilters() {
+  if (pageMode.type !== "catalog") return;
+
+  const params = new URLSearchParams();
+  if (retailSearch.value.trim()) params.set("q", retailSearch.value.trim());
+  if (retailBrand.value !== "all") params.set("brand", retailBrand.value);
+  if (retailSeason.value !== "all") params.set("season", retailSeason.value);
+  if (retailWidth.value !== "all") params.set("width", retailWidth.value);
+  if (retailProfile.value !== "all") params.set("profile", retailProfile.value);
+  if (retailDiameter.value !== "all") params.set("diameter", retailDiameter.value);
+  if (retailCountry?.value && retailCountry.value !== "all") params.set("country", retailCountry.value);
+  if (retailYear?.value && retailYear.value !== "all") params.set("year", retailYear.value);
+  if (retailPriceMin?.value) params.set("priceMin", retailPriceMin.value);
+  if (retailPriceMax?.value) params.set("priceMax", retailPriceMax.value);
+  if (retailSort?.value && retailSort.value !== "default") params.set("sort", retailSort.value);
+
+  const query = params.toString();
+  window.history.replaceState({}, "", query ? `/catalog?${query}` : "/catalog");
 }
 
 function setProductJsonLd(product) {
@@ -684,7 +769,9 @@ function applyPageMode() {
       renderProductPage(product);
     }
   } else if (pageMode.type === "catalog") {
-    setMeta(`Каталог шин в Ковелі | ${titleBase}`, "Каталог шин TireTop у Ковелі: фільтри за брендом, сезоном і розміром, актуальні ціни, фото та заявка онлайн.", "/catalog/");
+    applyCatalogUrlFilters();
+    catalogExpanded = true;
+    setMeta(`Каталог шин — купити шини в Ковелі | ${titleBase}`, "Каталог шин TireTop: літні, зимові та всесезонні шини для легкових авто і SUV. Підбір по розміру, бренду та бюджету.", "/catalog");
     breadcrumbJsonLd([{ name: "Головна", path: "/" }, { name: "Каталог", path: "/catalog/" }]);
   } else {
     setMeta(`Шини в Ковелі | ${titleBase}`, "Шини у Ковелі з актуальними цінами, фото та підбором під авто. TireTop допоможе звірити розмір, сезон і доставку по Україні.", "/");
@@ -806,7 +893,13 @@ function resetRetailFilters() {
   retailDiameter.value = "all";
   retailSeason.value = "all";
   retailBrand.value = "all";
+  if (retailPriceMin) retailPriceMin.value = "";
+  if (retailPriceMax) retailPriceMax.value = "";
+  if (retailCountry) retailCountry.value = "all";
+  if (retailYear) retailYear.value = "all";
+  if (retailSort) retailSort.value = "default";
   catalogExpanded = false;
+  updateCatalogUrlFilters();
   renderRetailCatalog();
 }
 
@@ -821,19 +914,22 @@ document.addEventListener("keydown", (event) => {
   if (!publicOrderModal.hidden && event.key === "Escape") closePublicOrderModal();
 });
 
-[retailSearch, retailWidth, retailProfile, retailDiameter, retailSeason, retailBrand].forEach((element) => {
+[retailSearch, retailWidth, retailProfile, retailDiameter, retailSeason, retailBrand, retailPriceMin, retailPriceMax, retailCountry, retailYear, retailSort].filter(Boolean).forEach((element) => {
   element.addEventListener("input", () => {
     catalogExpanded = false;
+    updateCatalogUrlFilters();
     renderRetailCatalog();
   });
   element.addEventListener("change", () => {
     catalogExpanded = false;
+    updateCatalogUrlFilters();
     renderRetailCatalog();
   });
 });
 retailReset.addEventListener("click", resetRetailFilters);
 retailSearchButton?.addEventListener("click", () => {
   catalogExpanded = false;
+  updateCatalogUrlFilters();
   renderRetailCatalog();
   retailGrid?.closest("section")?.scrollIntoView({ behavior: "smooth", block: "start" });
 });

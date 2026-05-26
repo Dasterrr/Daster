@@ -516,6 +516,66 @@ function staticOrderFormMarkup() {
     </div>`;
 }
 
+function siteFooterMarkup() {
+  return `<footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a class="brand" href="/" aria-label="TireTop">
+            <span class="brand-mark">T</span>
+            <span>
+              <strong>TireTop</strong>
+              <small>Шини • Диски • Підбір</small>
+            </span>
+          </a>
+          <p>TireTop — магазин шин для легкових авто та SUV. Підбір шин по авто, розміру та бюджету.</p>
+        </div>
+        <div>
+          <h3>Каталог</h3>
+          <a href="/catalog?season=Літо">Літні шини</a>
+          <a href="/catalog?season=Зима">Зимові шини</a>
+          <a href="/catalog?season=Всесезон">Всесезонні шини</a>
+          <a href="/catalog?type=suv">SUV шини</a>
+          <a href="/catalog?type=ev">Шини для електромобілів</a>
+        </div>
+        <div>
+          <h3>Бренди</h3>
+          <a href="/catalog?brand=Continental">Continental</a>
+          <a href="/catalog?brand=Triangle">Triangle</a>
+          <a href="/catalog?brand=Uniroyal">Uniroyal</a>
+          <a href="/catalog?brand=Matador">Matador</a>
+          <a href="/catalog?brand=Habilead">Habilead</a>
+          <a href="/catalog?brand=Tercelo">Tercelo</a>
+        </div>
+        <div>
+          <h3>Інформація</h3>
+          <a href="/about/">Про нас</a>
+          <a href="/delivery-payment/">Доставка і оплата</a>
+          <a href="/contacts/">Контакти</a>
+          <a href="/#selection">Підбір шин</a>
+          <a href="/privacy/">Політика конфіденційності</a>
+        </div>
+        <div>
+          <h3>Контакти</h3>
+          <a href="tel:+380977879921">+38 (097) 787-99-21</a>
+          <a href="${escapeHtml(CONTACTS.viber)}">Viber</a>
+          <a href="${escapeHtml(CONTACTS.telegram)}" target="_blank" rel="noreferrer">Telegram</a>
+          <span>Ковель</span>
+          <span>Пн-Сб: 09:00-18:00</span>
+          <div class="footer-socials" aria-label="Соціальні мережі">
+            <a href="https://www.tiktok.com/@tire.top" target="_blank" rel="noreferrer">TikTok</a>
+            <a href="https://www.instagram.com/" target="_blank" rel="noreferrer">Instagram</a>
+            <a href="${escapeHtml(CONTACTS.telegram)}" target="_blank" rel="noreferrer">Telegram</a>
+            <a href="${escapeHtml(CONTACTS.viber)}">Viber</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 TireTop.store</span>
+        <span>Всі права захищені.</span>
+      </div>
+    </footer>`;
+}
+
 function pageShell({ title, description, canonical, body, structuredData = "" }) {
   const finalTitle = metaTitle(title);
   const finalDescription = metaDescription(description);
@@ -555,6 +615,7 @@ function pageShell({ title, description, canonical, body, structuredData = "" })
     <main class="seo-static-main">
       ${body}
     </main>
+    ${siteFooterMarkup()}
     ${staticOrderFormMarkup()}
     <script src="/product-live.js" defer></script>
     <script src="/product-order.js" defer></script>
@@ -1119,9 +1180,10 @@ for (const page of infoPages) {
 }
 
 const catalogSource = fs.readFileSync(path.join(root, "index.html"), "utf8")
-  .replace(/<title>[\s\S]*?<\/title>/, `<title>${escapeHtml(categorySeoTitle("Каталог шин"))}</title>`)
-  .replace(/<link rel="canonical" href="[^"]+" \/>/, `<link rel="canonical" href="${siteOrigin}/catalog/" />`)
-  .replace(/<meta name="description" content="[^"]*" \/>/, `<meta name="description" content="${escapeHtml(categorySeoDescription("Каталог шин"))}" />`);
+  .replace(/<title>[\s\S]*?<\/title>/, `<title>Каталог шин — купити шини в Ковелі | TireTop</title>`)
+  .replace(/<body class="public-site retail-page">/, `<body class="public-site retail-page catalog-page">`)
+  .replace(/<link rel="canonical" href="[^"]+" \/>/, `<link rel="canonical" href="${siteOrigin}/catalog" />`)
+  .replace(/<meta name="description" content="[^"]*" \/>/, `<meta name="description" content="Каталог шин TireTop: літні, зимові та всесезонні шини для легкових авто і SUV. Підбір по розміру, бренду та бюджету." />`);
 writeFile("catalog/index.html", catalogSource);
 
 const sitemapUrls = [
