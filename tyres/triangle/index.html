@@ -7,6 +7,7 @@
     <title>Купити Triangle купити з підбором ціна та наявність | TireTop</title>
     <link rel="canonical" href="https://tiretop.store/tyres/triangle/" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://res.cloudinary.com" />
     <link rel="stylesheet" href="/styles.css" />
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"Triangle","brand":{"@type":"Brand","name":"TireTop"},"image":["https://images.unsplash.com/photo-1578844251758-2f71da64c96f?auto=format&fit=crop&w=900&q=80"],"description":"Triangle в наявності у TireTop. Роздрібна ціна уточнюється, підбір під авто, самовивіз у Ковелі або доставка. Консультація, самовивіз у Ковелі та доставка...","offers":{"@type":"Offer","priceCurrency":"UAH","availability":"https://schema.org/PreOrder","url":"https://tiretop.store/tyres/triangle/"},"additionalProperty":[]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Головна","item":"https://tiretop.store/"},{"@type":"ListItem","position":2,"name":"Каталог","item":"https://tiretop.store/catalog/"},{"@type":"ListItem","position":3,"name":"Triangle","item":"https://tiretop.store/tyres/triangle/"}]}</script>
@@ -34,7 +35,7 @@
       <section class="seo-product-hero">
     <div class="seo-product-photo">
     <div class="seo-main-photo-frame">
-      <img class="seo-main-product-image" src="https://images.unsplash.com/photo-1578844251758-2f71da64c96f?auto=format&amp;fit=crop&amp;w=900&amp;q=80" alt="Triangle" loading="eager" />
+      <img class="seo-main-product-image" src="https://images.unsplash.com/photo-1578844251758-2f71da64c96f?auto=format&amp;fit=crop&amp;w=900&amp;q=80" alt="Triangle" loading="eager" fetchpriority="high" decoding="async" />
     </div>
     
   </div>
@@ -153,7 +154,7 @@
         <p class="order-status" id="productOrderStatus" hidden></p>
       </form>
     </div>
-    <script src="/product-live.js"></script>
-    <script src="/product-order.js"></script>
+    <script src="/product-live.js" defer></script>
+    <script src="/product-order.js" defer></script>
   </body>
 </html>

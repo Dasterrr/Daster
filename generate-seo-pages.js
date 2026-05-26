@@ -344,7 +344,7 @@ function tyreLabelBlock(product) {
 
   const labelCandidates = eprelLabelCandidates(product);
   const visual = labelCandidates.length
-    ? `<img class="eu-label-image" src="${escapeHtml(labelCandidates[0])}" alt="${escapeHtml(imageAlt)}" loading="lazy" data-label-candidates="${escapeHtml(JSON.stringify(labelCandidates))}" onerror="window.tryNextEprelLabelImage && window.tryNextEprelLabelImage(this)">`
+    ? `<img class="eu-label-image" src="${escapeHtml(labelCandidates[0])}" alt="${escapeHtml(imageAlt)}" loading="lazy" decoding="async" data-label-candidates="${escapeHtml(JSON.stringify(labelCandidates))}" onerror="window.tryNextEprelLabelImage && window.tryNextEprelLabelImage(this)">`
     : `<div class="eu-label-card" role="img" aria-label="${escapeHtml(imageAlt)}">
         <div>
           <span>Економія пального</span>
@@ -528,6 +528,7 @@ function pageShell({ title, description, canonical, body, structuredData = "" })
     <title>${escapeHtml(finalTitle)}</title>
     <link rel="canonical" href="${siteOrigin}${canonical}" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://res.cloudinary.com" />
     <link rel="stylesheet" href="/styles.css" />
     ${structuredData}
   </head>
@@ -554,8 +555,8 @@ function pageShell({ title, description, canonical, body, structuredData = "" })
       ${body}
     </main>
     ${staticOrderFormMarkup()}
-    <script src="/product-live.js"></script>
-    <script src="/product-order.js"></script>
+    <script src="/product-live.js" defer></script>
+    <script src="/product-order.js" defer></script>
   </body>
 </html>
 `;
@@ -568,7 +569,7 @@ function productCard(product) {
   return `<article class="seo-product-card" data-width="${escapeHtml(product.width)}" data-profile="${escapeHtml(product.profile)}" data-diameter="${escapeHtml(product.diameter)}" data-season="${escapeHtml(product.season)}">
     <a class="seo-product-image" href="/tyres/${product.slug}/">
       ${seasonIcon}
-      <img src="${escapeHtml(image)}" alt="${escapeHtml(product.name)}" loading="lazy" />
+      <img src="${escapeHtml(image)}" alt="${escapeHtml(product.name)}" loading="lazy" decoding="async" />
     </a>
     <div class="seo-product-body">
       <p>${escapeHtml(product.brand || "TireTop")}</p>
@@ -937,14 +938,14 @@ function productGallery(product) {
   const thumbs = images.length > 1
     ? `<div class="seo-product-thumbs" aria-label="Фото товару">${images.map((url, index) => `
         <button class="${index === 0 ? "active" : ""}" type="button" data-gallery-image="${escapeHtml(url)}" aria-label="Фото ${index + 1}: ${escapeHtml(product.name)}">
-          <img src="${escapeHtml(url)}" alt="${escapeHtml(product.name)} фото ${index + 1}" loading="lazy" />
+          <img src="${escapeHtml(url)}" alt="${escapeHtml(product.name)} фото ${index + 1}" loading="lazy" decoding="async" />
         </button>
       `).join("")}</div>`
     : "";
 
   return `<div class="seo-product-photo">
     <div class="seo-main-photo-frame">
-      <img class="seo-main-product-image" src="${escapeHtml(mainImage)}" alt="${escapeHtml(product.name)}" loading="eager" />
+      <img class="seo-main-product-image" src="${escapeHtml(mainImage)}" alt="${escapeHtml(product.name)}" loading="eager" fetchpriority="high" decoding="async" />
     </div>
     ${thumbs}
   </div>`;

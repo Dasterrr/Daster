@@ -211,7 +211,7 @@ function tyreLabelBlock(product) {
   }
 
   const visual = product.labelImageUrl
-    ? `<img class="eu-label-image" src="${publicEscape(product.labelImageUrl)}" alt="${publicEscape(imageAlt)}" loading="lazy">`
+    ? `<img class="eu-label-image" src="${publicEscape(product.labelImageUrl)}" alt="${publicEscape(imageAlt)}" loading="lazy" decoding="async">`
     : `<div class="eu-label-card" role="img" aria-label="${publicEscape(imageAlt)}">
         <div>
           <span>Економія пального</span>
@@ -442,7 +442,7 @@ function retailCard(product, options = {}) {
     <article class="retail-card ${options.recommended ? "retail-recommended-card" : ""}">
       <div class="retail-image">
         ${seasonIcon}
-        <img src="${publicEscape(image)}" alt="${publicEscape(name)}" loading="lazy" onerror="this.onerror=null;this.src='${publicFallbackImage}'">
+        <img src="${publicEscape(image)}" alt="${publicEscape(name)}" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='${publicFallbackImage}'">
         <span class="retail-badge">${publicEscape(badge)}</span>
       </div>
       <div class="retail-body">
@@ -607,7 +607,7 @@ function renderProductPage(product) {
   productPage.innerHTML = `
     <article class="product-detail">
       <div class="product-detail-image">
-        <img src="${publicEscape(image)}" alt="${publicEscape(name)}" loading="lazy">
+        <img src="${publicEscape(image)}" alt="${publicEscape(name)}" loading="lazy" decoding="async">
       </div>
       <div class="product-detail-body">
         <p class="eyebrow">${publicEscape(product.brand || "TireTop")}</p>
