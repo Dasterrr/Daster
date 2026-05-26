@@ -151,6 +151,7 @@ function updateLiveSimilarProducts(products) {
     image.src = imageUrl;
     image.alt = product.name || image.alt;
     image.loading = "lazy";
+    image.decoding = "async";
   });
 }
 
@@ -173,6 +174,7 @@ function updateLiveSeoCards(products) {
     image.src = imageUrl;
     image.alt = product.name || image.alt;
     image.loading = "lazy";
+    image.decoding = "async";
   });
 }
 

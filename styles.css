@@ -730,26 +730,34 @@
     gap: 18px;
   }
 
+  .seo-product-grid {
+    gap: 18px;
+  }
+
+  .seo-product-grid .seo-product-card,
   .seo-similar-grid .seo-product-card {
     border-radius: 16px;
   }
 
+  .seo-product-grid .seo-product-image,
   .seo-similar-grid .seo-product-image {
-    height: auto;
-    aspect-ratio: 1 / 1;
+    height: clamp(210px, 58vw, 260px);
+    min-height: 0;
     padding: 18px;
     background: #edf8f6;
   }
 
+  .seo-product-grid .seo-product-image img,
   .seo-similar-grid .seo-product-image img {
     width: auto;
     height: auto;
-    max-width: 92%;
-    max-height: 92%;
+    max-width: min(78%, 250px);
+    max-height: 86%;
     object-fit: contain;
     object-position: center;
   }
 
+  .seo-product-grid .seo-product-body,
   .seo-similar-grid .seo-product-body {
     padding: 18px 20px 20px;
   }
