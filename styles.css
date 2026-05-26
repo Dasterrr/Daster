@@ -1880,6 +1880,34 @@ body.modal-open {
   box-shadow: 0 18px 34px rgba(103, 234, 208, 0.28);
 }
 
+.header-phone {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 0 16px;
+  color: #e8fffa;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(103, 234, 208, 0.24);
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: 900;
+  white-space: nowrap;
+  transition: transform 0.22s ease, border-color 0.22s ease, background 0.22s ease;
+}
+
+.header-phone::before {
+  margin-right: 8px;
+  content: "☎";
+  color: #67ead0;
+}
+
+.header-phone:hover {
+  background: rgba(103, 234, 208, 0.13);
+  border-color: rgba(103, 234, 208, 0.46);
+  transform: translateY(-1px);
+}
+
 .nav-toggle {
   position: absolute;
   opacity: 0;
@@ -1955,6 +1983,34 @@ body.modal-open {
   flex-wrap: wrap;
   gap: 12px;
   margin-top: 24px;
+}
+
+.contact-phone-link {
+  display: inline-grid;
+  gap: 4px;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  padding: 8px 18px;
+  color: #071321;
+  background: #e8f7f4;
+  border: 1px solid rgba(15, 118, 110, 0.16);
+  border-radius: 10px;
+  text-decoration: none;
+  box-shadow: 0 10px 24px rgba(15, 118, 110, 0.08);
+}
+
+.contact-phone-link span {
+  color: #0f766e;
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.contact-phone-link strong {
+  font-size: 19px;
+  line-height: 1.1;
+  white-space: nowrap;
 }
 
 .public-primary,
@@ -3638,8 +3694,16 @@ body.modal-open {
     font-size: 14px;
   }
 
-  .public-nav {
+  .header-phone {
     order: 4;
+    grid-column: 1 / -1;
+    min-height: 34px;
+    padding: 0 12px;
+    font-size: 14px;
+  }
+
+  .public-nav {
+    order: 5;
     display: none;
     grid-column: 1 / -1;
     width: 100%;

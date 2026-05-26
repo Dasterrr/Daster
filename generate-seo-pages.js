@@ -549,6 +549,7 @@ function pageShell({ title, description, canonical, body, structuredData = "" })
         <a href="/#selection">Підбір</a>
         <a href="/#contacts">Контакти</a>
       </nav>
+      <a class="header-phone" href="tel:+380977879921">+38 (097) 787-99-21</a>
       <a class="header-cta" href="${escapeHtml(CONTACTS.viber)}" target="_blank" rel="noreferrer">Viber</a>
     </header>
     <main class="seo-static-main">
@@ -702,11 +703,13 @@ function localSeoBody(page) {
 }
 
 function infoPageBody(page) {
+  const contactAction = page.slug === "contacts" ? `<a class="contact-phone-link" href="tel:+380977879921"><span>РўРµР»РµС„РѕРЅ</span><strong>+38 (097) 787-99-21</strong></a>` : "";
   return `<section class="seo-list-hero local-seo-hero">
     <p class="eyebrow">${escapeHtml(page.eyebrow)}</p>
     <h1>${escapeHtml(page.h1)}</h1>
     <p>${escapeHtml(page.copy)}</p>
     <div class="local-seo-actions">
+      ${contactAction}
       <a class="public-primary" href="/catalog/">Перейти до каталогу</a>
       <button class="public-primary light static-order-button" type="button" data-product="${escapeHtml(page.h1)}" data-price="" data-size="${escapeHtml(page.h1)}">Замовити підбір</button>
     </div>
