@@ -746,6 +746,10 @@ function renderProductPage(product) {
 function applyPageMode() {
   pageMode = detectPageMode();
   const titleBase = "TireTop";
+  document.body.classList.toggle("catalog-page", pageMode.type === "catalog");
+  document.body.classList.toggle("product-page", pageMode.type === "product");
+  document.body.classList.toggle("brand-page", pageMode.type === "brand");
+  document.body.classList.toggle("size-page", pageMode.type === "size");
 
   if (pageMode.type === "brand") {
     const brand = pageMode.value.charAt(0).toUpperCase() + pageMode.value.slice(1);
