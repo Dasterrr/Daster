@@ -154,28 +154,6 @@ function updateLiveSimilarProducts(products) {
   });
 }
 
-function updateLiveSeoCards(products) {
-  const cards = document.querySelectorAll(".seo-product-card");
-  if (!cards.length) return;
-
-  const productsBySlug = new Map(products.map((product) => [liveProductSlug(product), product]));
-
-  cards.forEach((card) => {
-    const link = card.querySelector("a[href*='/tyres/']");
-    const image = card.querySelector("img");
-    if (!link || !image) return;
-
-    const slug = link.getAttribute("href")?.split("/").filter(Boolean).pop();
-    const product = productsBySlug.get(slug);
-    const imageUrl = product?.images?.[0];
-    if (!imageUrl) return;
-
-    image.src = imageUrl;
-    image.alt = product.name || image.alt;
-    image.loading = "lazy";
-  });
-}
-
 function liveClassRows(activeClass) {
   return ["A", "B", "C", "D", "E"].map((item) => `
     <span class="eu-class-row ${item === activeClass ? "active" : ""}">
@@ -305,16 +283,12 @@ window.tryNextEprelLabelImage = (image) => {
 
 async function initLiveProductPage() {
   const parts = window.location.pathname.split("/").filter(Boolean);
-  const hasSeoCards = Boolean(document.querySelector(".seo-product-card"));
-  const isProductPage = parts[0] === "tyres" && parts[1];
-  if (!isProductPage && !hasSeoCards) return;
+  if (parts[0] !== "tyres" || !parts[1]) return;
 
   try {
     const table = await loadLiveSheet();
     const products = liveProductsFromTable(table);
-    updateLiveSeoCards(products);
     updateLiveSimilarProducts(products);
-    if (!isProductPage) return;
     const product = products.find((item) => liveProductSlug(item) === parts[1]);
     if (product) {
       window.currentLiveProductForLabel = product;
