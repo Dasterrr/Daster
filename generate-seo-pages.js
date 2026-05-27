@@ -7,6 +7,7 @@ const siteOrigin = "https://tiretop.store";
 const fallbackImage = "https://images.unsplash.com/photo-1578844251758-2f71da64c96f?auto=format&fit=crop&w=900&q=80";
 const focusBrands = ["triangle", "uniroyal", "matador", "habilead"];
 const popularSizes = ["205-55-r16", "195-65-r15", "225-45-r17", "215-65-r16", "235-55-r18", "255-45-r19"];
+const approvedCustomerReviews = [];
 const localSeoPages = [
   {
     slug: "shyny-kovel",
@@ -569,6 +570,21 @@ function staticOrderFormMarkup() {
       <input name="source" />
     </form>
 
+    <form class="netlify-detect-form" name="tyre-review" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/success.html">
+      <input type="hidden" name="form-name" value="tyre-review" />
+      <input name="bot-field" />
+      <input name="email" />
+      <input name="subject" />
+      <input name="product_name" />
+      <input name="product_slug" />
+      <input name="reviewer_name" />
+      <input name="reviewer_contact" />
+      <input name="rating" />
+      <input name="bought_at_tiretop" />
+      <textarea name="review_text"></textarea>
+      <input name="source" />
+    </form>
+
     <div class="order-modal" id="productOrderModal" hidden aria-modal="true" role="dialog" aria-label="Замовити шини">
       <form class="order-card" id="productOrderForm">
         <button class="order-close" id="productOrderClose" type="button" aria-label="Закрити">&times;</button>
@@ -609,6 +625,36 @@ function staticOrderFormMarkup() {
         <label><span>Коментар</span><textarea id="productOrderComment" name="comment" rows="3" placeholder="Побажання, авто, час дзвінка"></textarea></label>
         <button class="order-submit" type="submit">Відправити заявку</button>
         <p class="order-status" id="productOrderStatus" hidden></p>
+      </form>
+    </div>
+
+    <div class="order-modal" id="productReviewModal" hidden aria-modal="true" role="dialog" aria-label="Залишити відгук про шину">
+      <form class="order-card review-form-card" id="productReviewForm">
+        <button class="order-close" id="productReviewClose" type="button" aria-label="Закрити">&times;</button>
+        <div>
+          <p class="eyebrow">Відгук про шину</p>
+          <h2>Залишити відгук</h2>
+          <div class="order-summary">
+            <div>
+              <span>Шина</span>
+              <strong id="productReviewProduct">Модель шини</strong>
+              <small>Після перевірки ми зможемо опублікувати відгук на сайті.</small>
+            </div>
+          </div>
+        </div>
+        <input id="productReviewNameHidden" name="product_name" type="hidden" />
+        <input id="productReviewSlug" name="product_slug" type="hidden" />
+        <div class="order-grid two">
+          <label><span>Ваше ім'я</span><input id="productReviewReviewer" name="reviewer_name" type="text" autocomplete="name" required /></label>
+          <label><span>Телефон або email <small>для перевірки</small></span><input id="productReviewContact" name="reviewer_contact" type="text" required /></label>
+        </div>
+        <div class="order-grid two">
+          <label><span>Оцінка</span><select id="productReviewRating" name="rating" required><option value="5">5 - відмінно</option><option value="4">4 - добре</option><option value="3">3 - нормально</option><option value="2">2 - є зауваження</option><option value="1">1 - не сподобалось</option></select></label>
+          <label><span>Купували у TireTop?</span><select id="productReviewBought" name="bought_at_tiretop"><option value="Так">Так</option><option value="Планую купити">Планую купити</option><option value="Ні">Ні</option></select></label>
+        </div>
+        <label><span>Ваш відгук</span><textarea id="productReviewText" name="review_text" rows="5" placeholder="Що сподобалось, як поводиться шина, чи радите іншим водіям?" required></textarea></label>
+        <button class="order-submit" type="submit">Надіслати відгук</button>
+        <p class="order-status" id="productReviewStatus" hidden></p>
       </form>
     </div>`;
 }
@@ -1184,6 +1230,46 @@ function productVisibleReviewBlock(product) {
   </section>`;
 }
 
+function approvedReviewsForProduct(product) {
+  return approvedCustomerReviews.filter((review) => {
+    const reviewSlug = clean(review.product_slug || review.slug);
+    const reviewProduct = clean(review.product_name || review.product);
+    return review.approved === true && (reviewSlug === product.slug || reviewProduct === product.name);
+  });
+}
+
+function productCustomerReviewsBlock(product) {
+  const reviews = approvedReviewsForProduct(product);
+  const reviewCards = reviews.length
+    ? reviews.map((review) => {
+        const rating = Math.max(1, Math.min(5, Number(review.rating) || 5));
+        const stars = "★★★★★".slice(0, rating);
+        return `<article class="customer-review-card">
+          <div class="customer-review-top">
+            <strong>${escapeHtml(review.reviewer_name || "Клієнт TireTop")}</strong>
+            <span aria-label="Оцінка ${rating} з 5">${stars}</span>
+          </div>
+          <p>${escapeHtml(review.review_text || "")}</p>
+        </article>`;
+      }).join("")
+    : `<article class="customer-review-empty">
+        <strong>Ще немає опублікованих відгуків</strong>
+        <p>Будьте першим, хто залишить реальний відгук про цю модель. Ми перевіряємо відгуки перед публікацією, щоб на сайті були тільки корисні коментарі від людей.</p>
+      </article>`;
+
+  return `<section class="customer-reviews-section" id="customer-reviews">
+    <div class="customer-reviews-head">
+      <div>
+        <p class="eyebrow">Відгуки покупців</p>
+        <h2>Відгуки про ${escapeHtml(product.name)}</h2>
+        <p>Ваш відгук допоможе іншим водіям зрозуміти, як шина поводиться в реальному використанні.</p>
+      </div>
+      <button class="public-primary static-review-button" type="button" data-product="${escapeHtml(product.name)}" data-slug="${escapeHtml(product.slug)}">Залишити відгук</button>
+    </div>
+    <div class="customer-review-grid">${reviewCards}</div>
+  </section>`;
+}
+
 function productShippingReturnBlock(product) {
   const name = product.name;
   return `<section class="seo-commercial-grid">
@@ -1414,6 +1500,7 @@ for (const product of products) {
   ${tyreLabelBlock(product)}
   ${productSeoText(product)}
   ${productVisibleReviewBlock(product)}
+  ${productCustomerReviewsBlock(product)}
   ${productShippingReturnBlock(product)}
   ${similarProductsBlock(product)}
   ${trustBlock()}`;

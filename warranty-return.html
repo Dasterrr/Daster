@@ -172,6 +172,21 @@
       <input name="source" />
     </form>
 
+    <form class="netlify-detect-form" name="tyre-review" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/success.html">
+      <input type="hidden" name="form-name" value="tyre-review" />
+      <input name="bot-field" />
+      <input name="email" />
+      <input name="subject" />
+      <input name="product_name" />
+      <input name="product_slug" />
+      <input name="reviewer_name" />
+      <input name="reviewer_contact" />
+      <input name="rating" />
+      <input name="bought_at_tiretop" />
+      <textarea name="review_text"></textarea>
+      <input name="source" />
+    </form>
+
     <div class="order-modal" id="productOrderModal" hidden aria-modal="true" role="dialog" aria-label="Замовити шини">
       <form class="order-card" id="productOrderForm">
         <button class="order-close" id="productOrderClose" type="button" aria-label="Закрити">&times;</button>
@@ -212,6 +227,36 @@
         <label><span>Коментар</span><textarea id="productOrderComment" name="comment" rows="3" placeholder="Побажання, авто, час дзвінка"></textarea></label>
         <button class="order-submit" type="submit">Відправити заявку</button>
         <p class="order-status" id="productOrderStatus" hidden></p>
+      </form>
+    </div>
+
+    <div class="order-modal" id="productReviewModal" hidden aria-modal="true" role="dialog" aria-label="Залишити відгук про шину">
+      <form class="order-card review-form-card" id="productReviewForm">
+        <button class="order-close" id="productReviewClose" type="button" aria-label="Закрити">&times;</button>
+        <div>
+          <p class="eyebrow">Відгук про шину</p>
+          <h2>Залишити відгук</h2>
+          <div class="order-summary">
+            <div>
+              <span>Шина</span>
+              <strong id="productReviewProduct">Модель шини</strong>
+              <small>Після перевірки ми зможемо опублікувати відгук на сайті.</small>
+            </div>
+          </div>
+        </div>
+        <input id="productReviewNameHidden" name="product_name" type="hidden" />
+        <input id="productReviewSlug" name="product_slug" type="hidden" />
+        <div class="order-grid two">
+          <label><span>Ваше ім'я</span><input id="productReviewReviewer" name="reviewer_name" type="text" autocomplete="name" required /></label>
+          <label><span>Телефон або email <small>для перевірки</small></span><input id="productReviewContact" name="reviewer_contact" type="text" required /></label>
+        </div>
+        <div class="order-grid two">
+          <label><span>Оцінка</span><select id="productReviewRating" name="rating" required><option value="5">5 - відмінно</option><option value="4">4 - добре</option><option value="3">3 - нормально</option><option value="2">2 - є зауваження</option><option value="1">1 - не сподобалось</option></select></label>
+          <label><span>Купували у TireTop?</span><select id="productReviewBought" name="bought_at_tiretop"><option value="Так">Так</option><option value="Планую купити">Планую купити</option><option value="Ні">Ні</option></select></label>
+        </div>
+        <label><span>Ваш відгук</span><textarea id="productReviewText" name="review_text" rows="5" placeholder="Що сподобалось, як поводиться шина, чи радите іншим водіям?" required></textarea></label>
+        <button class="order-submit" type="submit">Надіслати відгук</button>
+        <p class="order-status" id="productReviewStatus" hidden></p>
       </form>
     </div>
     <script src="/product-live.js" defer></script>

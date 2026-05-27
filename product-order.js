@@ -8,6 +8,13 @@
   const selectedProduct = document.getElementById("productOrderSelectedProduct");
   const retailPrice = document.getElementById("productOrderRetailPrice");
   const sizeInput = document.getElementById("productOrderSize");
+  const reviewModal = document.getElementById("productReviewModal");
+  const reviewForm = document.getElementById("productReviewForm");
+  const reviewCloseButton = document.getElementById("productReviewClose");
+  const reviewStatus = document.getElementById("productReviewStatus");
+  const reviewProductText = document.getElementById("productReviewProduct");
+  const reviewProductInput = document.getElementById("productReviewNameHidden");
+  const reviewSlugInput = document.getElementById("productReviewSlug");
 
   if (!modal || !form) return;
 
@@ -46,6 +53,30 @@
 
   function closeOrderModal() {
     modal.hidden = true;
+    document.body.classList.remove("modal-open");
+  }
+
+  function openReviewModal(button) {
+    if (!reviewModal || !reviewForm) return;
+    const product = button.dataset.product || "";
+    const slug = button.dataset.slug || "";
+
+    if (reviewProductText) reviewProductText.textContent = product || "Модель шини";
+    if (reviewProductInput) reviewProductInput.value = product;
+    if (reviewSlugInput) reviewSlugInput.value = slug;
+    if (reviewStatus) {
+      reviewStatus.hidden = true;
+      reviewStatus.textContent = "";
+      reviewStatus.className = "order-status";
+    }
+
+    reviewModal.hidden = false;
+    document.body.classList.add("modal-open");
+  }
+
+  function closeReviewModal() {
+    if (!reviewModal) return;
+    reviewModal.hidden = true;
     document.body.classList.remove("modal-open");
   }
 
@@ -111,16 +142,77 @@
     }
   }
 
+  async function submitReview(event) {
+    event.preventDefault();
+    if (!reviewForm || !reviewStatus) return;
+
+    const submitButton = reviewForm.querySelector("button[type='submit']");
+    submitButton.disabled = true;
+    submitButton.textContent = "Відправляю...";
+    reviewStatus.hidden = true;
+
+    const payload = {
+      "form-name": "tyre-review",
+      email: "tiretop94@gmail.com",
+      subject: reviewProductInput?.value
+        ? `Відгук про шину: ${reviewProductInput.value}`
+        : "Новий відгук про шину TireTop",
+      product_name: reviewProductInput?.value || "",
+      product_slug: reviewSlugInput?.value || "",
+      reviewer_name: document.getElementById("productReviewReviewer")?.value || "",
+      reviewer_contact: document.getElementById("productReviewContact")?.value || "",
+      rating: document.getElementById("productReviewRating")?.value || "",
+      bought_at_tiretop: document.getElementById("productReviewBought")?.value || "",
+      review_text: document.getElementById("productReviewText")?.value || "",
+      source: "product-review-form"
+    };
+
+    try {
+      const response = await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: encodeFormData(payload)
+      });
+
+      if (!response.ok) throw new Error(`Netlify form returned ${response.status}`);
+
+      reviewStatus.textContent = "Дякуємо! Відгук відправлено на перевірку.";
+      reviewStatus.className = "order-status success";
+      reviewStatus.hidden = false;
+      reviewForm.reset();
+      if (reviewProductInput) reviewProductInput.value = payload.product_name;
+      if (reviewSlugInput) reviewSlugInput.value = payload.product_slug;
+    } catch (error) {
+      console.warn("Product review submit failed:", error);
+      reviewStatus.textContent = "Не вдалося відправити відгук. Спробуйте ще раз або напишіть нам напряму.";
+      reviewStatus.className = "order-status error";
+      reviewStatus.hidden = false;
+    } finally {
+      submitButton.disabled = false;
+      submitButton.textContent = "Надіслати відгук";
+    }
+  }
+
   document.querySelectorAll(".static-order-button").forEach((button) => {
     button.addEventListener("click", () => openOrderModal(button));
   });
 
+  document.querySelectorAll(".static-review-button").forEach((button) => {
+    button.addEventListener("click", () => openReviewModal(button));
+  });
+
   closeButton?.addEventListener("click", closeOrderModal);
+  reviewCloseButton?.addEventListener("click", closeReviewModal);
   modal.addEventListener("click", (event) => {
     if (event.target === modal) closeOrderModal();
   });
+  reviewModal?.addEventListener("click", (event) => {
+    if (event.target === reviewModal) closeReviewModal();
+  });
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape" && !modal.hidden) closeOrderModal();
+    if (event.key === "Escape" && reviewModal && !reviewModal.hidden) closeReviewModal();
   });
   form.addEventListener("submit", submitOrder);
+  reviewForm?.addEventListener("submit", submitReview);
 })();
