@@ -636,10 +636,10 @@ function siteFooterMarkup() {
           <span>Ковель</span>
           <span>Пн-Сб: 09:00-18:00</span>
           <div class="footer-socials" aria-label="Соціальні мережі">
-            <a href="https://www.tiktok.com/@tire.top" target="_blank" rel="noreferrer">TikTok</a>
-            <a href="https://www.instagram.com/" target="_blank" rel="noreferrer">Instagram</a>
-            <a href="${escapeHtml(CONTACTS.telegram)}" target="_blank" rel="noreferrer">Telegram</a>
-            <a href="${escapeHtml(CONTACTS.viber)}">Viber</a>
+            <a href="https://www.tiktok.com/@tire.top" target="_blank" rel="noreferrer" aria-label="TikTok"><span aria-hidden="true">♪</span></a>
+            <a href="https://www.instagram.com/" target="_blank" rel="noreferrer" aria-label="Instagram"><span aria-hidden="true">◎</span></a>
+            <a href="${escapeHtml(CONTACTS.telegram)}" target="_blank" rel="noreferrer" aria-label="Telegram"><span aria-hidden="true">✈</span></a>
+            <a href="${escapeHtml(CONTACTS.viber)}" aria-label="Viber"><span aria-hidden="true">☎</span></a>
           </div>
         </div>
       </div>
