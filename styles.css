@@ -806,6 +806,20 @@ a {
   text-decoration: none;
 }
 
+.brand-logo-frame {
+  display: grid;
+  place-items: center;
+  width: 142px;
+  height: 38px;
+  overflow: hidden;
+}
+
+.brand-logo {
+  display: block;
+  width: 142px;
+  height: auto;
+}
+
 .brand-mark {
   display: grid;
   place-items: center;
@@ -819,6 +833,10 @@ a {
 
 .brand strong,
 .brand small {
+  display: block;
+}
+
+.brand-copy {
   display: block;
 }
 
@@ -1838,7 +1856,7 @@ body.modal-open {
 }
 
 .public-header .brand {
-  gap: 15px;
+  gap: 12px;
   color: #fff;
   transition: transform 0.25s ease, opacity 0.25s ease;
 }
@@ -1855,6 +1873,15 @@ body.modal-open {
   background: #67ead0;
   border-radius: 12px;
   box-shadow: 0 12px 28px rgba(103, 234, 208, 0.18);
+}
+
+.public-header .brand-logo-frame {
+  width: 150px;
+  height: 40px;
+}
+
+.public-header .brand-logo {
+  width: 150px;
 }
 
 .public-header .brand strong {
@@ -3613,6 +3640,15 @@ body.modal-open {
   text-decoration: none;
 }
 
+.site-footer .brand-logo-frame {
+  width: 154px;
+  height: 40px;
+}
+
+.site-footer .brand-logo {
+  width: 154px;
+}
+
 .footer-brand p {
   max-width: 320px;
   margin: 0;
@@ -3937,8 +3973,17 @@ body.modal-open {
 
   .public-header .brand {
     order: 1;
-    gap: 10px;
+    gap: 8px;
     min-width: 0;
+  }
+
+  .public-header .brand-logo-frame {
+    width: 106px;
+    height: 32px;
+  }
+
+  .public-header .brand-logo {
+    width: 106px;
   }
 
   .public-header .brand-mark {

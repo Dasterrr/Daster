@@ -521,9 +521,10 @@ function siteFooterMarkup() {
       <div class="footer-grid">
         <div class="footer-brand">
           <a class="brand" href="/" aria-label="TireTop">
-            <span class="brand-mark">T</span>
-            <span>
-              <strong>TireTop</strong>
+            <span class="brand-logo-frame">
+              <img class="brand-logo" src="/tiretop-logo-light.svg" alt="TireTop" width="160" height="40" />
+            </span>
+            <span class="brand-copy">
               <small>Шини • Диски • Підбір</small>
             </span>
           </a>
@@ -595,9 +596,10 @@ function pageShell({ title, description, canonical, body, structuredData = "" })
   <body class="public-site retail-page seo-static-page">
     <header class="public-header">
       <a class="brand" href="/" aria-label="TireTop">
-        <span class="brand-mark">T</span>
-        <span>
-          <strong>TireTop</strong>
+        <span class="brand-logo-frame">
+          <img class="brand-logo" src="/tiretop-logo-light.svg" alt="TireTop" width="160" height="40" />
+        </span>
+        <span class="brand-copy">
           <small>Шини • Диски • Підбір</small>
         </span>
       </a>
