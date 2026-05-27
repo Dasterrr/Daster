@@ -1501,8 +1501,8 @@ for (const product of products) {
   ${tyreLabelBlock(product)}
   ${productSeoText(product)}
   ${productVisibleReviewBlock(product)}
-  ${productCustomerReviewsBlock(product)}
   ${productShippingReturnBlock(product)}
+  ${productCustomerReviewsBlock(product)}
   ${similarProductsBlock(product)}
   ${trustBlock()}`;
 
