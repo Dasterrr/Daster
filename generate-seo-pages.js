@@ -1491,6 +1491,7 @@ for (const product of products) {
       </div>
       <div class="seo-actions">
         <button class="public-primary seo-order-main static-order-button" type="button" data-product="${escapeHtml(product.name)}" data-price="${escapeHtml(price || "")}" data-size="${escapeHtml(size || product.name)}">Замовити</button>
+        <button class="public-primary light static-review-button" type="button" data-product="${escapeHtml(product.name)}" data-slug="${escapeHtml(product.slug)}">Залишити відгук</button>
         <a class="public-primary" href="viber://forward?text=${message}" target="_blank" rel="noreferrer">Viber</a>
         <a class="public-primary" href="${escapeHtml(CONTACTS.telegram)}?text=${message}" target="_blank" rel="noreferrer">Telegram</a>
         <a class="public-primary light" href="/catalog/">До каталогу</a>
