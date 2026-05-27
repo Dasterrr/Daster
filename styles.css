@@ -90,7 +90,7 @@
 
 .seo-product-thumbs button:hover,
 .seo-product-thumbs button.active {
-  border-color: #b87300;
+  border-color: #1F3C88;
   transform: translateY(-1px);
 }
 
@@ -187,7 +187,7 @@
 }
 
 .seo-actions .seo-order-main {
-  background: #b87300;
+  background: #F5A623;
   box-shadow: 0 12px 24px rgba(245, 166, 35, 0.2);
 }
 
@@ -294,7 +294,7 @@
   padding: 10px 14px;
   border-radius: 999px;
   background: #f6f7f8;
-  color: #946200;
+  color: #1F3C88;
   font-weight: 900;
 }
 
@@ -368,7 +368,7 @@
   min-height: 42px;
   padding: 0 14px;
   border-radius: 8px;
-  color: #946200;
+  color: #1F3C88;
   background: #f6f7f8;
   font-weight: 900;
   text-decoration: none;
@@ -432,16 +432,24 @@
   display: grid;
   gap: 8px;
   padding: 16px;
-  border: 1px solid rgba(17, 24, 39, 0.08);
-  border-radius: 12px;
+  border: 1px solid #E5E7EB;
+  border-radius: 14px;
   background: #fff;
   text-decoration: none;
+  transition: all 0.2s ease;
 }
 
 .local-seo-points strong,
 .local-link-grid a {
-  color: #b87300;
-  font-weight: 900;
+  color: #1F3C88;
+  font-weight: 800;
+}
+
+.local-link-grid a:hover {
+  color: #F5A623;
+  border-color: #1F3C88;
+  box-shadow: 0 12px 28px rgba(31, 60, 136, 0.08);
+  transform: translateY(-2px);
 }
 
 .local-seo-points span {
@@ -503,7 +511,7 @@
 }
 
 .season-all {
-  color: #b87300;
+  color: #1F3C88;
   font-size: 17px;
 }
 
@@ -618,7 +626,7 @@
   height: 44px;
   margin-right: 12px;
   border-radius: 10px;
-  color: #946200;
+  color: #1F3C88;
   background: #f4f5f6;
   font-size: 28px;
   line-height: 1;
@@ -642,7 +650,7 @@
   border: 0;
   border-radius: 9px;
   color: #fff;
-  background: #b87300;
+  background: #1F3C88;
   box-shadow: 0 8px 18px rgba(245, 166, 35, 0.18);
 }
 
@@ -654,7 +662,7 @@
   padding: 0 22px;
   border-radius: 8px;
   color: #fff;
-  background: #b87300;
+  background: #1F3C88;
   font-weight: 800;
   text-decoration: none;
   box-shadow: 0 12px 24px rgba(245, 166, 35, 0.2);
@@ -662,7 +670,7 @@
 }
 
 .eu-label-link:hover {
-  background: #9b6408;
+  background: #F5A623;
   transform: translateY(-1px);
 }
 
@@ -1816,7 +1824,7 @@ body.modal-open {
 
 .order-summary span {
   display: block;
-  color: #b87300;
+  color: #1F3C88;
   font-size: 12px;
   font-weight: 900;
   text-transform: uppercase;
@@ -1833,7 +1841,7 @@ body.modal-open {
 .order-summary small {
   display: block;
   margin-top: 4px;
-  color: #b87300;
+  color: #1F3C88;
   font-size: 16px;
   font-weight: 900;
 }
@@ -1996,7 +2004,7 @@ body.modal-open {
 .public-header {
   position: sticky;
   top: 0;
-  z-index: 20;
+  z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -2004,10 +2012,11 @@ body.modal-open {
   min-height: 76px;
   padding: 12px clamp(16px, 5vw, 54px);
   color: #fff;
-  background: rgba(12, 22, 34, 0.96);
+  background: rgba(15, 23, 42, 0.94);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 16px 38px rgba(7, 19, 33, 0.16);
-  backdrop-filter: blur(16px);
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .public-header .brand {
@@ -2034,10 +2043,13 @@ body.modal-open {
 .public-header .brand-logo-frame {
   width: 150px;
   height: 42px;
+  overflow: visible;
 }
 
 .public-header .brand-logo {
   width: 150px;
+  max-width: 100%;
+  filter: drop-shadow(0 4px 14px rgba(245, 166, 35, 0.2));
 }
 
 .public-header .brand strong {
@@ -2062,12 +2074,12 @@ body.modal-open {
 
 .public-nav a {
   position: relative;
-  color: rgba(255, 255, 255, 0.78);
+  color: rgba(255, 255, 255, 0.82);
   text-decoration: none;
   font-size: 15px;
   font-weight: 850;
   white-space: nowrap;
-  transition: color 0.22s ease;
+  transition: color 0.22s ease, transform 0.22s ease;
 }
 
 .public-nav a::after {
@@ -2085,10 +2097,16 @@ body.modal-open {
 
 .public-nav a:hover {
   color: #fff;
+  transform: translateY(-1px);
 }
 
-.public-nav a:hover::after {
+.public-nav a:hover::after,
+.public-nav a[aria-current="page"]::after {
   transform: scaleX(1);
+}
+
+.public-nav a[aria-current="page"] {
+  color: #F5A623;
 }
 
 .header-cta {
@@ -2118,7 +2136,7 @@ body.modal-open {
   justify-content: center;
   min-height: 44px;
   padding: 0 18px;
-  color: #fff3d1;
+  color: #fff;
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(245, 166, 35, 0.34);
   border-radius: 12px;
@@ -2235,7 +2253,7 @@ body.modal-open {
 }
 
 .contact-phone-link span {
-  color: #b87300;
+  color: #1F3C88;
   font-size: 12px;
   font-weight: 900;
   text-transform: uppercase;
@@ -2470,9 +2488,30 @@ body.modal-open {
 
 .brand-grid a,
 .popular-size-links a {
-  color: #946200;
-  font-weight: 900;
+  color: #1F3C88;
+  font-weight: 700;
   text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.brand-link,
+.seo-link,
+.popular-size-link,
+.useful-page-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #1F3C88;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.brand-link:hover,
+.seo-link:hover,
+.useful-page-link:hover {
+  color: #F5A623;
+  transform: translateX(2px);
 }
 
 .retail-details-link {
@@ -2579,9 +2618,9 @@ body.modal-open {
 }
 
 .brand-grid article:hover {
-  border-color: rgba(245, 166, 35, 0.32);
-  transform: translateY(-3px);
-  box-shadow: 0 18px 42px rgba(15, 23, 42, 0.1);
+  border-color: rgba(31, 60, 136, 0.22);
+  transform: translateY(-4px);
+  box-shadow: 0 14px 34px rgba(31, 60, 136, 0.08);
 }
 
 .brand-grid h3,
@@ -2858,6 +2897,7 @@ body.modal-open {
   border: 1px solid rgba(245, 166, 35, 0.48);
   border-radius: 14px;
   box-shadow: 0 18px 44px rgba(0, 0, 0, 0.28);
+  isolation: isolate;
 }
 
 .hero-brand-logo img {
@@ -2865,13 +2905,15 @@ body.modal-open {
   inset: auto;
   display: block;
   width: clamp(230px, 23vw, 330px);
-  height: 54px;
-  object-fit: cover;
-  object-position: top center;
+  height: auto;
+  max-height: 86px;
+  object-fit: contain;
+  object-position: center;
+  transform: translateZ(0);
 }
 
 .hero-brand-logo b {
-  display: block;
+  display: none;
   margin-top: 5px;
   color: #fff;
   font-size: clamp(11px, 1.1vw, 14px);
@@ -3386,7 +3428,7 @@ body.modal-open {
 }
 
 .car-size-group > span {
-  color: #b87300;
+  color: #1F3C88;
   font-weight: 900;
 }
 
@@ -3413,7 +3455,7 @@ body.modal-open {
 
 .car-size-group a.primary {
   color: #fff;
-  background: #b87300;
+  background: #1F3C88;
 }
 
 .car-seo-hero {
@@ -4013,7 +4055,7 @@ body.modal-open {
   min-height: 42px;
   align-items: center;
   padding: 0 16px;
-  color: #b87300;
+  color: #1F3C88;
   background: #e7f5f2;
   border-radius: 999px;
   font-weight: 900;
@@ -4194,11 +4236,25 @@ body.modal-open {
 }
 
 .popular-size-links a {
-  padding: 12px 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 18px;
+  color: #1F3C88;
   background: #fff;
-  border: 1px solid #d5e4e1;
-  border-radius: 8px;
+  border: 1px solid #D6D6D6;
+  border-radius: 10px;
+  font-weight: 800;
   box-shadow: 0 8px 22px rgba(24, 33, 47, 0.06);
+  transition: all 0.2s ease;
+}
+
+.popular-size-links a:hover,
+.popular-size-link:hover {
+  color: #fff;
+  background: #1F3C88;
+  border-color: #1F3C88;
+  transform: translateY(-2px);
 }
 
 .brand-filter-panel {
@@ -4827,8 +4883,8 @@ body.modal-open {
     grid-template-columns: 1fr auto auto;
     align-items: center;
     gap: 10px;
-    min-height: 62px;
-    padding: 9px 12px;
+    min-height: 68px;
+    padding: 10px 12px;
   }
 
   .order-card {
@@ -4843,17 +4899,19 @@ body.modal-open {
 
   .public-header .brand {
     order: 1;
-    gap: 8px;
+    gap: 0;
     min-width: 0;
   }
 
   .public-header .brand-logo-frame {
-    width: 132px;
-    height: 36px;
+    width: 118px;
+    height: 40px;
+    overflow: visible;
   }
 
   .public-header .brand-logo {
-    width: 132px;
+    width: 118px;
+    filter: drop-shadow(0 3px 10px rgba(245, 166, 35, 0.28));
   }
 
   .public-header .brand-mark {
@@ -4866,8 +4924,7 @@ body.modal-open {
   }
 
   .public-header .brand small {
-    font-size: 10px;
-    white-space: nowrap;
+    display: none;
   }
 
   .nav-toggle-button {
@@ -4878,9 +4935,16 @@ body.modal-open {
   .header-phone {
     order: 3;
     grid-column: auto;
-    min-height: 38px;
-    padding: 0 10px;
-    font-size: 14px;
+    width: 42px;
+    min-height: 42px;
+    padding: 0;
+    font-size: 0;
+    border-radius: 12px;
+  }
+
+  .header-phone::before {
+    margin: 0;
+    font-size: 19px;
   }
 
   .public-nav {
@@ -4988,7 +5052,8 @@ body.modal-open {
 
   .hero-brand-logo img {
     width: min(260px, 72vw);
-    height: 44px;
+    height: auto;
+    max-height: 74px;
   }
 
   .hero-brand-logo b {
@@ -5149,4 +5214,5 @@ body.modal-open {
     grid-template-columns: 1fr;
   }
 }
+
 

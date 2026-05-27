@@ -691,7 +691,12 @@ function pageShell({ title, description, canonical, body, structuredData = "" })
     <meta name="description" content="${escapeHtml(finalDescription)}" />
     <title>${escapeHtml(finalTitle)}</title>
     <link rel="canonical" href="${siteOrigin}${canonical}" />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
     <link rel="preconnect" href="https://res.cloudinary.com" />
     <link rel="stylesheet" href="/styles.css" />
     ${structuredData}
@@ -709,11 +714,11 @@ function pageShell({ title, description, canonical, body, structuredData = "" })
       <input class="nav-toggle" id="siteNavToggle" type="checkbox" aria-label="Відкрити меню" />
       <label class="nav-toggle-button" for="siteNavToggle" aria-hidden="true"><span></span><span></span><span></span></label>
       <nav class="public-nav" aria-label="Навігація">
-        <a href="/catalog/">Каталог</a>
-        <a href="/delivery-payment/">Доставка і оплата</a>
-        <a href="/warranty-return/">Гарантія і повернення</a>
-        <a href="/reviews/">Відгуки</a>
-        <a href="/contacts/">Контакти</a>
+        <a href="/catalog" ${["/catalog", "/tyres", "/brand", "/size"].some((path) => canonical.startsWith(path)) ? 'aria-current="page"' : ""}>Каталог</a>
+        <a href="/delivery-payment" ${canonical.startsWith("/delivery-payment") ? 'aria-current="page"' : ""}>Доставка і оплата</a>
+        <a href="/warranty-return" ${canonical.startsWith("/warranty-return") ? 'aria-current="page"' : ""}>Гарантія і повернення</a>
+        <a href="/reviews" ${canonical.startsWith("/reviews") ? 'aria-current="page"' : ""}>Відгуки</a>
+        <a href="/contacts" ${canonical.startsWith("/contacts") ? 'aria-current="page"' : ""}>Контакти</a>
       </nav>
       <a class="header-phone" href="tel:+380977879921">+38 (097) 787-99-21</a>
     </header>
@@ -1496,7 +1501,8 @@ const catalogSource = fs.readFileSync(path.join(root, "index.html"), "utf8")
   .replace(/<title>[\s\S]*?<\/title>/, `<title>Каталог шин — купити шини в Ковелі | TireTop</title>`)
   .replace(/<body class="public-site retail-page">/, `<body class="public-site retail-page catalog-page">`)
   .replace(/<link rel="canonical" href="[^"]+" \/>/, `<link rel="canonical" href="${siteOrigin}/catalog" />`)
-  .replace(/<meta name="description" content="[^"]*" \/>/, `<meta name="description" content="Каталог шин TireTop: літні, зимові та всесезонні шини для легкових авто і SUV. Підбір по розміру, бренду та бюджету." />`);
+  .replace(/<meta name="description" content="[^"]*" \/>/, `<meta name="description" content="Каталог шин TireTop: літні, зимові та всесезонні шини для легкових авто і SUV. Підбір по розміру, бренду та бюджету." />`)
+  .replace('<a href="/catalog">', '<a href="/catalog" aria-current="page">');
 writeFile("catalog/index.html", catalogSource);
 
 const sitemapUrls = [
