@@ -1207,7 +1207,8 @@ ${sitemapUrls.map((url) => `  <url><loc>${siteOrigin}${url}</loc></url>`).join("
 fs.writeFileSync(path.join(root, "sitemap.xml"), sitemap, "utf8");
 
 fs.writeFileSync(path.join(root, "_redirects"), [
-  ""
+  "/catalog /catalog/index.html 200",
+  "/catalog/ /catalog/index.html 200"
 ].join("\n") + "\n", "utf8");
 
 console.log(`Generated ${products.length} product pages, ${focusBrands.length} brand pages, ${uniqueSizes.length} size pages, ${carFitments.length} car pages.`);

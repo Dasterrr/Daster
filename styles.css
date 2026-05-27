@@ -2816,11 +2816,6 @@ body.modal-open {
   border-radius: 24px;
 }
 
-.catalog-page .finder-refresh .retail-toolbar label:has(#retailSearch) {
-  display: grid;
-}
-
-.catalog-page .finder-refresh .retail-toolbar label:has(#retailSearch),
 .catalog-page .finder-refresh .retail-toolbar label:has(#retailSort) {
   grid-column: span 2;
 }

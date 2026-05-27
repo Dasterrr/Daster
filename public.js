@@ -386,6 +386,7 @@ async function loadPublicProducts() {
 }
 
 function fillPublicSelect(select, values, suffix = "") {
+  if (!select) return;
   select.querySelectorAll("option:not([value='all'])").forEach((option) => option.remove());
 
   for (const value of values) {
