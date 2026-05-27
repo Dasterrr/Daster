@@ -869,6 +869,60 @@ function localSeoBody(page) {
 }
 
 function infoPageBody(page) {
+  if (page.slug === "contacts") {
+    return `<div class="contacts-page">
+      <section class="contacts-hero">
+        <div>
+          <span class="contacts-badge">TireTop • Ковель</span>
+          <h1>Зв'яжіться з нами</h1>
+          <p>Допоможемо підібрати шини під ваш автомобіль, бюджет та стиль їзди. Працюємо офлайн у Ковелі та відправляємо замовлення по всій Україні.</p>
+          <div class="contacts-actions">
+            <a href="tel:+380977879921" class="btn-primary">Подзвонити</a>
+            <a href="https://wa.me/380977879921" target="_blank" rel="noreferrer" class="btn-secondary">Написати в WhatsApp</a>
+          </div>
+        </div>
+        <div class="contacts-card">
+          <h2>Наш магазин</h2>
+          <p><strong>Місто:</strong> Ковель, Волинська область</p>
+          <p><strong>Доставка:</strong> Нова Пошта / Delivery</p>
+          <p><strong>Графік:</strong> уточнюйте у менеджера</p>
+          <a href="https://maps.app.goo.gl/JjZGWG9iymMe9KmF7" target="_blank" rel="noreferrer">Відкрити в Google Maps</a>
+        </div>
+      </section>
+      <section class="ukraine-delivery">
+        <div class="section-title">
+          <h2>Відправляємо шини по всій Україні</h2>
+          <p>Наш магазин знаходиться у місті Ковель, але ваші шини можуть поїхати у будь-який регіон України.</p>
+        </div>
+        <div class="ukraine-map-card">
+          <div class="ukraine-map">
+            <div class="kovel-point"><span></span><strong>Ковель</strong></div>
+            <div class="arrow arrow-kyiv">Київ</div>
+            <div class="arrow arrow-lviv">Львів</div>
+            <div class="arrow arrow-odesa">Одеса</div>
+            <div class="arrow arrow-dnipro">Дніпро</div>
+            <div class="arrow arrow-kharkiv">Харків</div>
+            <div class="map-text">Доставка Новою Поштою та Delivery</div>
+          </div>
+        </div>
+      </section>
+      <section class="contact-options">
+        <div class="contact-option"><h3>Швидка консультація</h3><p>Напишіть нам розмір шин або модель авто — ми підберемо оптимальний варіант.</p></div>
+        <div class="contact-option"><h3>Фото та наявність</h3><p>Можемо надіслати фото шин, DOT, країну виробництва та актуальну ціну.</p></div>
+        <div class="contact-option"><h3>Відправка по Україні</h3><p>Пакуємо та відправляємо замовлення перевіреними службами доставки.</p></div>
+      </section>
+      <section class="google-map-section">
+        <div class="section-title">
+          <h2>Наш офлайн магазин на карті</h2>
+          <p>Приїжджайте до нас у Ковель або замовляйте доставку.</p>
+        </div>
+        <div class="google-map">
+          <iframe title="TireTop Google Map" src="https://www.google.com/maps?q=TireTop%20%D0%9A%D0%BE%D0%B2%D0%B5%D0%BB%D1%8C&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+      </section>
+    </div>`;
+  }
+
   if (page.slug === "delivery-payment") {
     return `<section class="seo-list-hero local-seo-hero">
       <p class="eyebrow">TireTop Ковель</p>
@@ -910,6 +964,59 @@ function infoPageBody(page) {
       </div>
       <a class="public-primary" href="/contacts/">Зв'язатися з нами</a>
     </section>`;
+  }
+
+  if (page.slug === "warranty-return") {
+    return `<div class="warranty-page">
+      <section class="warranty-hero">
+        <h1>Гарантія і повернення</h1>
+        <p>Ми перевіряємо кожне замовлення перед відправкою та допомагаємо швидко вирішувати будь-які питання.</p>
+      </section>
+      <section class="warranty-grid">
+        <div class="warranty-card">
+          <h2>Гарантія якості</h2>
+          <p>Перед відправкою кожне замовлення проходить перевірку:</p>
+          <ul>
+            <li>відповідність розміру та моделі</li>
+            <li>рік виробництва DOT</li>
+            <li>країна виробництва</li>
+            <li>відсутність пошкоджень</li>
+            <li>комплектація замовлення</li>
+          </ul>
+          <p>Ми продаємо тільки нові шини від офіційних виробників та постачальників.</p>
+        </div>
+        <div class="warranty-card">
+          <h2>Обмін та повернення</h2>
+          <p>Ви можете повернути або обміняти товар відповідно до законодавства України.</p>
+          <ul>
+            <li>товар не був у використанні</li>
+            <li>збережений товарний вигляд</li>
+            <li>збережені всі етикетки та маркування</li>
+            <li>товар не монтувався на диск</li>
+          </ul>
+        </div>
+        <div class="warranty-card warning">
+          <h2>Важливо знати</h2>
+          <p>Перед встановленням шин рекомендуємо:</p>
+          <ul>
+            <li>перевірити відповідність розміру вашому автомобілю</li>
+            <li>оглянути товар при отриманні</li>
+            <li>переконатися, що DOT та характеристики вас влаштовують</li>
+          </ul>
+          <strong>Після монтажу або використання шин повернення неможливе.</strong>
+        </div>
+        <div class="warranty-card">
+          <h2>Якщо виникла проблема</h2>
+          <p>Якщо ви отримали пошкоджений товар або виникли будь-які питання — зв'яжіться з нами, і ми допоможемо швидко вирішити ситуацію.</p>
+          <p>TireTop завжди на стороні клієнта та зацікавлений у довгостроковій співпраці.</p>
+        </div>
+      </section>
+      <section class="warranty-cta">
+        <h2>Потрібна допомога?</h2>
+        <p>Наші менеджери допоможуть вирішити питання щодо замовлення, доставки або повернення товару.</p>
+        <a href="/contacts/">Зв'язатися з нами</a>
+      </section>
+    </div>`;
   }
 
   const contactAction = page.slug === "contacts" ? `<a class="contact-phone-link" href="tel:+380977879921"><span>Телефон</span><strong>+38 (097) 787-99-21</strong></a>` : "";
@@ -1414,7 +1521,19 @@ fs.writeFileSync(path.join(root, "sitemap.xml"), sitemap, "utf8");
 
 fs.writeFileSync(path.join(root, "_redirects"), [
   "/catalog /catalog/index.html 200",
-  "/catalog/ /catalog/index.html 200"
+  "/catalog/ /catalog/index.html 200",
+  "/delivery-payment /delivery-payment/index.html 200",
+  "/delivery-payment/ /delivery-payment/index.html 200",
+  "/warranty-return /warranty-return/index.html 200",
+  "/warranty-return/ /warranty-return/index.html 200",
+  "/contacts /contacts/index.html 200",
+  "/contacts/ /contacts/index.html 200",
+  "/reviews /reviews/index.html 200",
+  "/reviews/ /reviews/index.html 200",
+  "/about /about/index.html 200",
+  "/about/ /about/index.html 200",
+  "/privacy /privacy/index.html 200",
+  "/privacy/ /privacy/index.html 200"
 ].join("\n") + "\n", "utf8");
 
 console.log(`Generated ${products.length} product pages, ${focusBrands.length} brand pages, ${uniqueSizes.length} size pages, ${carFitments.length} car pages.`);

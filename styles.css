@@ -3527,6 +3527,461 @@ body.modal-open {
   max-width: 680px;
 }
 
+.contacts-page,
+.warranty-page {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 48px 16px;
+  color: #222;
+}
+
+.contacts-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(300px, 0.65fr);
+  gap: 32px;
+  align-items: center;
+  margin-bottom: 56px;
+}
+
+.contacts-badge {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  margin-bottom: 18px;
+  padding: 8px 14px;
+  color: #1F3C88;
+  background: #fff4df;
+  border: 1px solid rgba(245, 166, 35, 0.28);
+  border-radius: 999px;
+  font-weight: 800;
+}
+
+.contacts-hero h1,
+.warranty-hero h1 {
+  margin: 0 0 18px;
+  color: #1F3C88;
+  font-size: clamp(36px, 5vw, 54px);
+  line-height: 1.05;
+  letter-spacing: -0.5px;
+}
+
+.contacts-hero p,
+.warranty-hero p {
+  max-width: 720px;
+  margin: 0;
+  color: #555;
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+.contacts-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 28px;
+}
+
+.btn-primary,
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  padding: 0 22px;
+  border-radius: 12px;
+  font-weight: 800;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.btn-primary {
+  color: #fff;
+  background: #F5A623;
+}
+
+.btn-primary:hover {
+  background: #e59617;
+}
+
+.btn-secondary {
+  color: #444;
+  background: #fff;
+  border: 1px solid #D6D6D6;
+}
+
+.btn-secondary:hover {
+  color: #fff;
+  background: #F5A623;
+  border-color: #F5A623;
+}
+
+.contacts-card,
+.contact-option,
+.warranty-card {
+  background: #F7F8FA;
+  border: 1px solid #E5E7EB;
+  border-radius: 20px;
+  box-shadow: 0 14px 40px rgba(31, 60, 136, 0.08);
+}
+
+.contacts-card {
+  padding: 28px;
+}
+
+.contacts-card h2,
+.contact-option h3,
+.warranty-card h2 {
+  margin: 0 0 14px;
+  color: #1F3C88;
+}
+
+.contacts-card p,
+.contact-option p,
+.warranty-card p {
+  color: #444;
+  line-height: 1.65;
+}
+
+.contacts-card p {
+  margin: 0 0 10px;
+}
+
+.contacts-card a {
+  display: inline-flex;
+  margin-top: 12px;
+  color: #1F3C88;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.section-title {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.section-title h2 {
+  margin: 0 0 10px;
+  color: #1F3C88;
+  font-size: clamp(28px, 4vw, 38px);
+  line-height: 1.1;
+}
+
+.section-title p {
+  max-width: 760px;
+  margin: 0 auto;
+  color: #666;
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+.ukraine-delivery,
+.contact-options,
+.google-map-section {
+  margin-bottom: 56px;
+}
+
+.ukraine-map-card {
+  padding: 28px;
+  background: #F7F8FA;
+  border: 1px solid #E5E7EB;
+  border-radius: 24px;
+}
+
+.ukraine-map {
+  position: relative;
+  min-height: 420px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 28% 36%, rgba(245, 166, 35, 0.25), transparent 8%),
+    radial-gradient(circle at 55% 45%, rgba(31, 60, 136, 0.14), transparent 12%),
+    linear-gradient(135deg, #eef3ff, #fff);
+  border-radius: 22px;
+}
+
+.ukraine-map::before {
+  position: absolute;
+  inset: 48px;
+  content: "";
+  background: #fff;
+  border: 2px solid rgba(31, 60, 136, 0.18);
+  clip-path: polygon(12% 36%, 22% 26%, 34% 20%, 48% 23%, 63% 18%, 78% 26%, 88% 40%, 82% 56%, 70% 60%, 66% 75%, 48% 70%, 35% 78%, 22% 68%, 16% 54%);
+  box-shadow: 0 20px 50px rgba(31, 60, 136, 0.08);
+}
+
+.kovel-point {
+  position: absolute;
+  left: 22%;
+  top: 38%;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #1F3C88;
+  font-weight: 900;
+}
+
+.kovel-point span {
+  width: 16px;
+  height: 16px;
+  background: #F5A623;
+  border: 4px solid #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 0 8px rgba(245, 166, 35, 0.25);
+}
+
+.arrow {
+  position: absolute;
+  z-index: 3;
+  color: #1F3C88;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.arrow::before {
+  position: absolute;
+  height: 2px;
+  background: #F5A623;
+  content: "";
+  transform-origin: left center;
+}
+
+.arrow::after {
+  position: absolute;
+  color: #F5A623;
+  content: ">";
+  font-size: 22px;
+}
+
+.arrow-kyiv {
+  left: 50%;
+  top: 38%;
+}
+
+.arrow-kyiv::before {
+  left: -160px;
+  top: 10px;
+  width: 150px;
+}
+
+.arrow-kyiv::after {
+  left: -20px;
+  top: -6px;
+}
+
+.arrow-lviv {
+  left: 18%;
+  top: 58%;
+}
+
+.arrow-lviv::before {
+  right: -76px;
+  top: 10px;
+  width: 70px;
+  transform: rotate(180deg);
+}
+
+.arrow-lviv::after {
+  right: -20px;
+  top: -6px;
+  transform: rotate(180deg);
+}
+
+.arrow-odesa {
+  left: 55%;
+  top: 72%;
+}
+
+.arrow-odesa::before {
+  left: -180px;
+  top: -30px;
+  width: 190px;
+  transform: rotate(28deg);
+}
+
+.arrow-odesa::after {
+  left: -14px;
+  top: -11px;
+  transform: rotate(28deg);
+}
+
+.arrow-dnipro {
+  left: 68%;
+  top: 55%;
+}
+
+.arrow-dnipro::before {
+  left: -250px;
+  top: -18px;
+  width: 260px;
+  transform: rotate(12deg);
+}
+
+.arrow-dnipro::after {
+  left: -16px;
+  top: -15px;
+  transform: rotate(12deg);
+}
+
+.arrow-kharkiv {
+  left: 76%;
+  top: 32%;
+}
+
+.arrow-kharkiv::before {
+  left: -300px;
+  top: 24px;
+  width: 310px;
+  transform: rotate(-8deg);
+}
+
+.arrow-kharkiv::after {
+  left: -16px;
+  top: -2px;
+  transform: rotate(-8deg);
+}
+
+.map-text {
+  position: absolute;
+  left: 50%;
+  bottom: 28px;
+  z-index: 4;
+  padding: 12px 18px;
+  color: #fff;
+  background: #1F3C88;
+  border-radius: 999px;
+  font-weight: 800;
+  text-align: center;
+  transform: translateX(-50%);
+}
+
+.contact-options,
+.warranty-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.contact-option {
+  padding: 24px;
+  background: #fff;
+  transition: all 0.2s ease;
+}
+
+.contact-option:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 34px rgba(31, 60, 136, 0.08);
+}
+
+.google-map {
+  height: 420px;
+  overflow: hidden;
+  border: 1px solid #E5E7EB;
+  border-radius: 24px;
+  box-shadow: 0 14px 40px rgba(31, 60, 136, 0.08);
+}
+
+.google-map iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.warranty-page {
+  max-width: 1100px;
+}
+
+.warranty-hero {
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.warranty-hero p {
+  margin: 0 auto;
+}
+
+.warranty-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-bottom: 40px;
+}
+
+.warranty-card {
+  padding: 28px;
+  box-shadow: none;
+}
+
+.warranty-card p {
+  margin: 0 0 12px;
+}
+
+.warranty-card ul {
+  margin: 16px 0;
+  padding: 0;
+  list-style: none;
+}
+
+.warranty-card li {
+  position: relative;
+  margin-bottom: 10px;
+  padding-left: 28px;
+  color: #333;
+}
+
+.warranty-card li::before {
+  position: absolute;
+  left: 0;
+  color: #F5A623;
+  content: "✓";
+  font-weight: 900;
+}
+
+.warranty-card.warning {
+  background: #fff;
+  border-color: rgba(245, 166, 35, 0.45);
+}
+
+.warranty-card strong {
+  display: block;
+  margin-top: 16px;
+  color: #1F3C88;
+}
+
+.warranty-cta {
+  padding: 36px 24px;
+  color: #fff;
+  background: #1F3C88;
+  border-radius: 20px;
+  text-align: center;
+}
+
+.warranty-cta h2 {
+  margin: 0 0 12px;
+  font-size: 30px;
+}
+
+.warranty-cta p {
+  max-width: 620px;
+  margin: 0 auto 24px;
+  line-height: 1.6;
+}
+
+.warranty-cta a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  padding: 0 24px;
+  color: #fff;
+  background: #F5A623;
+  border-radius: 12px;
+  font-weight: 800;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.warranty-cta a:hover {
+  background: #e59617;
+}
+
 .car-fitment-card,
 .car-help-card {
   padding: 24px;
@@ -4101,13 +4556,45 @@ body.modal-open {
   }
 
   .delivery-page-grid,
-  .delivery-check-list {
+  .delivery-check-list,
+  .contacts-hero,
+  .contact-options,
+  .warranty-grid {
     grid-template-columns: 1fr;
   }
 
   .delivery-cta-card {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .contacts-page,
+  .warranty-page {
+    padding: 32px 14px;
+  }
+
+  .ukraine-map {
+    min-height: 360px;
+  }
+
+  .arrow {
+    font-size: 12px;
+  }
+
+  .arrow::before,
+  .arrow::after {
+    display: none;
+  }
+
+  .arrow-kyiv { left: 52%; top: 38%; }
+  .arrow-lviv { left: 20%; top: 62%; }
+  .arrow-odesa { left: 52%; top: 72%; }
+  .arrow-dnipro { left: 66%; top: 58%; }
+  .arrow-kharkiv { left: 72%; top: 32%; }
+
+  .map-text {
+    width: calc(100% - 40px);
+    border-radius: 14px;
   }
 }
 
@@ -4137,6 +4624,32 @@ body.modal-open {
   .finder-refresh .retail-toolbar {
     grid-template-columns: 1fr;
     padding: 24px 14px 18px;
+  }
+
+  .contacts-actions {
+    flex-direction: column;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    width: 100%;
+  }
+
+  .ukraine-map-card {
+    padding: 14px;
+  }
+
+  .ukraine-map::before {
+    inset: 36px 20px;
+  }
+
+  .kovel-point {
+    left: 18%;
+    top: 38%;
+  }
+
+  .google-map {
+    height: 340px;
   }
 
   .catalog-page .finder-refresh .retail-toolbar {
