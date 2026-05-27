@@ -103,11 +103,11 @@ const infoPages = [
   },
   {
     slug: "delivery-payment",
-    title: "Доставка і оплата шин у Ковелі | TireTop",
+    title: "Доставка і оплата шин | TireTop",
     h1: "Доставка і оплата",
     eyebrow: "Умови покупки",
-    description: "Доставка і оплата шин TireTop. Самовивіз у Ковелі, Нова Пошта, Delivery, оплата при отриманні, передплата або безготівка.",
-    copy: "У TireTop можна забрати шини самовивозом у Ковелі або погодити доставку по Україні через Нову Пошту чи Delivery. Перед відправкою менеджер підтверджує модель, розмір, рік, країну виробництва, кількість і ціну. Оплата можлива при отриманні, передплатою або безготівково за домовленістю."
+    description: "Доставка шин по Україні Новою Поштою та Delivery. Самовивіз у Ковелі. Зручна оплата, перевірка шин перед відправкою та допомога з підбором.",
+    copy: "Швидко відправляємо шини по Україні та допомагаємо з підбором перед покупкою."
   },
   {
     slug: "warranty-return",
@@ -677,16 +677,7 @@ function siteFooterMarkup() {
 }
 
 function serviceTopbarMarkup() {
-  return `<div class="service-topbar" aria-label="Сервісна навігація">
-      <nav>
-        <a href="/delivery-payment/">Доставка і оплата</a>
-        <a href="/warranty-return/">Гарантія і повернення</a>
-        <a href="/reviews/">Відгуки</a>
-        <a href="/contacts/">Контакти</a>
-        <a href="/#selection">Підбір шин</a>
-      </nav>
-      <a class="service-phone" href="tel:+380977879921">+38 (097) 787-99-21</a>
-    </div>`;
+  return "";
 }
 
 function pageShell({ title, description, canonical, body, structuredData = "" }) {
@@ -706,7 +697,6 @@ function pageShell({ title, description, canonical, body, structuredData = "" })
     ${structuredData}
   </head>
   <body class="public-site retail-page seo-static-page">
-    ${serviceTopbarMarkup()}
     <header class="public-header">
       <a class="brand" href="/" aria-label="TireTop">
         <span class="brand-logo-frame">
@@ -720,12 +710,12 @@ function pageShell({ title, description, canonical, body, structuredData = "" })
       <label class="nav-toggle-button" for="siteNavToggle" aria-hidden="true"><span></span><span></span><span></span></label>
       <nav class="public-nav" aria-label="Навігація">
         <a href="/catalog/">Каталог</a>
-        <a href="/#brands">Виробники</a>
-        <a href="/#selection">Підбір</a>
-        <a href="/#contacts">Контакти</a>
+        <a href="/delivery-payment/">Доставка і оплата</a>
+        <a href="/warranty-return/">Гарантія і повернення</a>
+        <a href="/reviews/">Відгуки</a>
+        <a href="/contacts/">Контакти</a>
       </nav>
       <a class="header-phone" href="tel:+380977879921">+38 (097) 787-99-21</a>
-      <a class="header-cta" href="${escapeHtml(CONTACTS.viber)}" target="_blank" rel="noreferrer">Viber</a>
     </header>
     <main class="seo-static-main">
       ${body}
@@ -879,6 +869,49 @@ function localSeoBody(page) {
 }
 
 function infoPageBody(page) {
+  if (page.slug === "delivery-payment") {
+    return `<section class="seo-list-hero local-seo-hero">
+      <p class="eyebrow">TireTop Ковель</p>
+      <h1>Доставка і оплата</h1>
+      <p>Швидко відправляємо шини по Україні та допомагаємо з підбором перед покупкою.</p>
+    </section>
+    <section class="delivery-page-grid">
+      <article class="delivery-page-card">
+        <h2>Доставка по Україні</h2>
+        <p>Ми відправляємо шини по всій Україні службами Нова Пошта та Delivery. Більшість замовлень відправляються в день оформлення або наступного робочого дня. Середній термін доставки — 1–3 дні залежно від регіону.</p>
+      </article>
+      <article class="delivery-page-card">
+        <h2>Самовивіз</h2>
+        <p>Доступний самовивіз із магазину TireTop у місті Ковель. Перед приїздом рекомендуємо уточнити наявність шин у менеджера.</p>
+      </article>
+      <article class="delivery-page-card">
+        <h2>Оплата</h2>
+        <p>Доступні зручні способи оплати: оплата при отриманні, оплата на банківську картку, безготівковий розрахунок для ФОП та компаній.</p>
+      </article>
+      <article class="delivery-page-card">
+        <h2>Гарантія та повернення</h2>
+        <p>Якщо товар не підійшов або виникла проблема — зв'яжіться з нами, і ми допоможемо швидко вирішити питання. Обмін та повернення можливі відповідно до законодавства України.</p>
+      </article>
+    </section>
+    <section class="delivery-check-card">
+      <h2>Перед відправкою перевіряємо</h2>
+      <ul class="delivery-check-list">
+        <li>розмір шин</li>
+        <li>рік виробництва DOT</li>
+        <li>країну виробництва</li>
+        <li>стан шин</li>
+        <li>комплектацію замовлення</li>
+      </ul>
+    </section>
+    <section class="delivery-cta-card">
+      <div>
+        <h2>Потрібна допомога з підбором?</h2>
+        <p>Наші менеджери допоможуть підібрати шини під ваш автомобіль, стиль їзди та бюджет.</p>
+      </div>
+      <a class="public-primary" href="/contacts/">Зв'язатися з нами</a>
+    </section>`;
+  }
+
   const contactAction = page.slug === "contacts" ? `<a class="contact-phone-link" href="tel:+380977879921"><span>Телефон</span><strong>+38 (097) 787-99-21</strong></a>` : "";
   return `<section class="seo-list-hero local-seo-hero">
     <p class="eyebrow">${escapeHtml(page.eyebrow)}</p>
