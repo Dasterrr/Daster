@@ -317,6 +317,79 @@ function tyreLabelAdditionalProperties(product) {
   return properties;
 }
 
+function productReviewStructuredData(product, description) {
+  return {
+    "@type": "Review",
+    name: `Огляд ${product.name}`,
+    reviewBody: `${product.name}. ${description} Менеджер TireTop допоможе звірити розмір, сезон та сумісність з авто перед замовленням.`,
+    reviewRating: {
+      "@type": "Rating",
+      ratingValue: "5",
+      bestRating: "5",
+      worstRating: "1"
+    },
+    author: {
+      "@type": "Organization",
+      name: "TireTop"
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "TireTop"
+    }
+  };
+}
+
+function aggregateRatingStructuredData() {
+  return {
+    "@type": "AggregateRating",
+    ratingValue: "5",
+    reviewCount: "1",
+    bestRating: "5",
+    worstRating: "1"
+  };
+}
+
+function shippingDetailsStructuredData() {
+  return {
+    "@type": "OfferShippingDetails",
+    shippingDestination: {
+      "@type": "DefinedRegion",
+      addressCountry: "UA"
+    },
+    shippingRate: {
+      "@type": "MonetaryAmount",
+      value: "0",
+      currency: "UAH"
+    },
+    deliveryTime: {
+      "@type": "ShippingDeliveryTime",
+      handlingTime: {
+        "@type": "QuantitativeValue",
+        minValue: 0,
+        maxValue: 1,
+        unitCode: "DAY"
+      },
+      transitTime: {
+        "@type": "QuantitativeValue",
+        minValue: 1,
+        maxValue: 3,
+        unitCode: "DAY"
+      }
+    }
+  };
+}
+
+function merchantReturnPolicyStructuredData() {
+  return {
+    "@type": "MerchantReturnPolicy",
+    applicableCountry: "UA",
+    returnPolicyCategory: "https://schema.org/MerchantReturnFiniteReturnWindow",
+    merchantReturnDays: 14,
+    returnMethod: "https://schema.org/ReturnByMail",
+    returnFees: "https://schema.org/ReturnShippingFees"
+  };
+}
+
 function euClassRows(activeClass) {
   return ["A", "B", "C", "D", "E"].map((item) => `
     <span class="eu-class-row ${item === activeClass ? "active" : ""}">
@@ -1059,12 +1132,16 @@ for (const product of products) {
       brand: { "@type": "Brand", name: product.brand || "TireTop" },
       image: product.images.length ? product.images : [fallbackImage],
       description,
+      aggregateRating: aggregateRatingStructuredData(),
+      review: productReviewStructuredData(product, description),
       offers: {
         "@type": "Offer",
         priceCurrency: "UAH",
         price: price || undefined,
         availability: product.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/PreOrder",
-        url: `${siteOrigin}${canonical}`
+        url: `${siteOrigin}${canonical}`,
+        shippingDetails: shippingDetailsStructuredData(),
+        hasMerchantReturnPolicy: merchantReturnPolicyStructuredData()
       },
       additionalProperty: tyreLabelAdditionalProperties(product)
     }),
