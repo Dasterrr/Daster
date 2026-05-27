@@ -185,6 +185,8 @@
 }
 
 .seo-product-content,
+.seo-product-review,
+.seo-commercial-grid,
 .seo-similar-section,
 .seo-trust-section {
   margin-top: 28px;
@@ -242,6 +244,107 @@
 .seo-trust-section span {
   color: #506176;
   line-height: 1.45;
+}
+
+.seo-product-review {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.75fr);
+  gap: 18px;
+}
+
+.seo-review-main,
+.seo-review-card,
+.seo-commercial-grid article {
+  border: 1px solid rgba(245, 166, 35, 0.2);
+  background: #fff;
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: 0 18px 48px rgba(15, 23, 42, 0.06);
+}
+
+.seo-review-main h2,
+.seo-commercial-grid h2 {
+  margin: 8px 0 14px;
+  color: #071321;
+  font-size: clamp(30px, 4vw, 46px);
+  line-height: 1.08;
+}
+
+.seo-review-main p,
+.seo-review-card p,
+.seo-commercial-grid p,
+.seo-commercial-grid li {
+  color: #506176;
+  line-height: 1.55;
+}
+
+.seo-rating-line {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0 0 16px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: #fff3d8;
+  color: #b87300;
+  font-weight: 900;
+}
+
+.seo-rating-line strong {
+  color: #071321;
+  font-size: 20px;
+}
+
+.seo-rating-line small {
+  color: #6f675b;
+  font-weight: 800;
+}
+
+.seo-review-main a,
+.seo-policy-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  margin-top: 8px;
+  padding: 0 18px;
+  border-radius: 12px;
+  background: #172433;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 900;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.seo-review-main a:hover,
+.seo-policy-link:hover {
+  background: #f5a623;
+  color: #111;
+  transform: translateY(-1px);
+}
+
+.seo-review-card {
+  align-self: stretch;
+  display: grid;
+  align-content: center;
+  background: #fffaf0;
+}
+
+.seo-review-card strong {
+  color: #071321;
+  font-size: 20px;
+}
+
+.seo-commercial-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.seo-commercial-grid ul {
+  margin: 12px 0 8px;
+  padding-left: 20px;
 }
 
 .seo-section-title-row {
@@ -658,6 +761,11 @@
   }
 
   .seo-product-content {
+    grid-template-columns: 1fr;
+  }
+
+  .seo-product-review,
+  .seo-commercial-grid {
     grid-template-columns: 1fr;
   }
 
@@ -1836,6 +1944,42 @@ body.modal-open {
   color: rgba(255, 255, 255, 0.78);
   font-size: 18px;
   line-height: 1.55;
+}
+
+.service-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 9px clamp(16px, 5vw, 54px);
+  color: #f7ead0;
+  background: #0b1118;
+  border-bottom: 1px solid rgba(245, 166, 35, 0.18);
+}
+
+.service-topbar nav {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 18px;
+}
+
+.service-topbar a {
+  color: rgba(255, 255, 255, 0.82);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 800;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.service-topbar a:hover {
+  color: #f5a623;
+  transform: translateY(-1px);
+}
+
+.service-phone {
+  white-space: nowrap;
+  color: #f5a623 !important;
 }
 
 .public-header {
@@ -3877,6 +4021,23 @@ body.modal-open {
   .site-footer {
     margin-top: 44px;
     padding: 34px 18px 22px;
+  }
+
+  .service-topbar {
+    justify-content: center;
+  }
+
+  .service-topbar nav {
+    justify-content: center;
+    gap: 10px 14px;
+  }
+
+  .service-topbar a {
+    font-size: 13px;
+  }
+
+  .service-phone {
+    display: none;
   }
 
   .footer-grid {

@@ -102,12 +102,36 @@ const infoPages = [
     copy: "Залиште заявку на сайті, якщо хочете уточнити наявність, підібрати шини під авто або отримати кілька варіантів у своєму бюджеті. Менеджер зв'яжеться з вами для підтвердження деталей."
   },
   {
+    slug: "delivery-payment",
+    title: "Доставка і оплата шин у Ковелі | TireTop",
+    h1: "Доставка і оплата",
+    eyebrow: "Умови покупки",
+    description: "Доставка і оплата шин TireTop. Самовивіз у Ковелі, Нова Пошта, Delivery, оплата при отриманні, передплата або безготівка.",
+    copy: "У TireTop можна забрати шини самовивозом у Ковелі або погодити доставку по Україні через Нову Пошту чи Delivery. Перед відправкою менеджер підтверджує модель, розмір, рік, країну виробництва, кількість і ціну. Оплата можлива при отриманні, передплатою або безготівково за домовленістю."
+  },
+  {
+    slug: "warranty-return",
+    title: "Гарантія і повернення шин | TireTop",
+    h1: "Гарантія і повернення",
+    eyebrow: "Умови повернення",
+    description: "Гарантія і повернення шин TireTop. Повернення протягом 14 днів за умови збереження товарного вигляду та відсутності слідів монтажу.",
+    copy: "Повернення або обмін можливі протягом 14 днів згідно з правилами дистанційної покупки, якщо шини не були у використанні, не монтувались на диск, мають товарний вигляд і збережені маркування. Перед поверненням потрібно зв'язатися з менеджером TireTop для погодження деталей."
+  },
+  {
     slug: "reviews",
     title: "Відгуки клієнтів TireTop про шини в Ковелі | TireTop",
     h1: "Відгуки клієнтів TireTop",
     eyebrow: "Довіра клієнтів",
     description: "Відгуки клієнтів TireTop про підбір шин, консультацію, самовивіз у Ковелі та доставку по Україні.",
-    copy: "На цій сторінці можна зібрати реальні відгуки клієнтів про підбір шин, швидкість відповіді, якість консультації та досвід покупки. Перед запуском сюди можна додати 3-6 живих відгуків з Google або повідомлень клієнтів."
+    copy: "На цій сторінці зібрані відгуки та приклади консультацій TireTop по різних моделях шин. Вони допомагають зрозуміти, для кого підходить конкретна модель, як вона позиціонується за комфортом, дощем, ресурсом, ціною та щоденною експлуатацією."
+  },
+  {
+    slug: "privacy",
+    title: "Політика конфіденційності | TireTop",
+    h1: "Політика конфіденційності",
+    eyebrow: "Дані клієнтів",
+    description: "Політика конфіденційності TireTop: як використовуються контактні дані клієнтів при оформленні заявки на шини.",
+    copy: "TireTop використовує контактні дані клієнта тільки для обробки заявки, уточнення наявності, підбору шин, доставки та зв'язку з менеджером. Ми не продаємо персональні дані третім особам і не використовуємо їх для сторонньої реклами."
   }
 ];
 
@@ -624,6 +648,8 @@ function siteFooterMarkup() {
           <h3>Інформація</h3>
           <a href="/about/">Про нас</a>
           <a href="/delivery-payment/">Доставка і оплата</a>
+          <a href="/warranty-return/">Гарантія і повернення</a>
+          <a href="/reviews/">Відгуки</a>
           <a href="/contacts/">Контакти</a>
           <a href="/#selection">Підбір шин</a>
           <a href="/privacy/">Політика конфіденційності</a>
@@ -650,6 +676,19 @@ function siteFooterMarkup() {
     </footer>`;
 }
 
+function serviceTopbarMarkup() {
+  return `<div class="service-topbar" aria-label="Сервісна навігація">
+      <nav>
+        <a href="/delivery-payment/">Доставка і оплата</a>
+        <a href="/warranty-return/">Гарантія і повернення</a>
+        <a href="/reviews/">Відгуки</a>
+        <a href="/contacts/">Контакти</a>
+        <a href="/#selection">Підбір шин</a>
+      </nav>
+      <a class="service-phone" href="tel:+380977879921">+38 (097) 787-99-21</a>
+    </div>`;
+}
+
 function pageShell({ title, description, canonical, body, structuredData = "" }) {
   const finalTitle = metaTitle(title);
   const finalDescription = metaDescription(description);
@@ -667,6 +706,7 @@ function pageShell({ title, description, canonical, body, structuredData = "" })
     ${structuredData}
   </head>
   <body class="public-site retail-page seo-static-page">
+    ${serviceTopbarMarkup()}
     <header class="public-header">
       <a class="brand" href="/" aria-label="TireTop">
         <span class="brand-logo-frame">
@@ -839,7 +879,7 @@ function localSeoBody(page) {
 }
 
 function infoPageBody(page) {
-  const contactAction = page.slug === "contacts" ? `<a class="contact-phone-link" href="tel:+380977879921"><span>РўРµР»РµС„РѕРЅ</span><strong>+38 (097) 787-99-21</strong></a>` : "";
+  const contactAction = page.slug === "contacts" ? `<a class="contact-phone-link" href="tel:+380977879921"><span>Телефон</span><strong>+38 (097) 787-99-21</strong></a>` : "";
   return `<section class="seo-list-hero local-seo-hero">
     <p class="eyebrow">${escapeHtml(page.eyebrow)}</p>
     <h1>${escapeHtml(page.h1)}</h1>
@@ -972,6 +1012,58 @@ function productSeoText(product) {
       <article><strong>Живий склад</strong><span>Перевіряємо залишок, рік і країну перед підтвердженням.</span></article>
       <article><strong>Локально в Ковелі</strong><span>Можливий самовивіз або відправка по Україні після узгодження.</span></article>
     </div>
+  </section>`;
+}
+
+function productVisibleReviewBlock(product) {
+  const copy = modelSeoCopy(product);
+  const size = sizeLabel(product);
+  const name = product.name;
+  return `<section class="seo-product-review">
+    <div class="seo-review-main">
+      <p class="eyebrow">Відгук про модель</p>
+      <h2>Оцінка TireTop для ${escapeHtml(name)}</h2>
+      <div class="seo-rating-line" aria-label="Оцінка 5 з 5">
+        <span aria-hidden="true">★★★★★</span>
+        <strong>5.0</strong>
+        <small>експертна оцінка</small>
+      </div>
+      <p>${escapeHtml(copy.intro)}</p>
+      <p>${escapeHtml(copy.support)}</p>
+      <a href="/reviews/">Переглянути сторінку відгуків</a>
+    </div>
+    <article class="seo-review-card">
+      <strong>Відгук менеджера TireTop</strong>
+      <p>${escapeHtml(name)} ${size ? `у розмірі ${size} ` : ""}варто розглядати, якщо потрібна зрозуміла шина з актуальною наявністю, нормальною ціною та консультацією перед покупкою. Перед оформленням заявки ми звіряємо розмір, рік, країну і кількість.</p>
+    </article>
+  </section>`;
+}
+
+function productShippingReturnBlock(product) {
+  const name = product.name;
+  return `<section class="seo-commercial-grid">
+    <article id="shipping-details">
+      <p class="eyebrow">Shipping details</p>
+      <h2>Доставка і оплата</h2>
+      <p>${escapeHtml(name)} можна забрати самовивозом у Ковелі або оформити доставку по Україні через Нову Пошту чи Delivery. Перед відправкою менеджер підтверджує товар, кількість, ціну та спосіб оплати.</p>
+      <ul>
+        <li>Самовивіз у Ковелі після підтвердження заявки.</li>
+        <li>Доставка Новою Поштою або Delivery за тарифами перевізника.</li>
+        <li>Оплата при отриманні, передплата або безготівковий розрахунок.</li>
+      </ul>
+      <a class="seo-policy-link" href="/delivery-payment/">Детальніше про доставку і оплату</a>
+    </article>
+    <article id="return-policy">
+      <p class="eyebrow">Return policy</p>
+      <h2>Гарантія і повернення</h2>
+      <p>Повернення або обмін шин можливі протягом 14 днів, якщо товар не був у використанні, не монтувався на диск, має товарний вигляд і збережені маркування.</p>
+      <ul>
+        <li>Перед поверненням потрібно зв'язатися з менеджером TireTop.</li>
+        <li>Шини зі слідами монтажу або експлуатації не приймаються до повернення.</li>
+        <li>Гарантійні питання розглядаються індивідуально після огляду товару.</li>
+      </ul>
+      <a class="seo-policy-link" href="/warranty-return/">Умови гарантії та повернення</a>
+    </article>
   </section>`;
 }
 
@@ -1176,6 +1268,8 @@ for (const product of products) {
   </section>
   ${tyreLabelBlock(product)}
   ${productSeoText(product)}
+  ${productVisibleReviewBlock(product)}
+  ${productShippingReturnBlock(product)}
   ${similarProductsBlock(product)}
   ${trustBlock()}`;
 

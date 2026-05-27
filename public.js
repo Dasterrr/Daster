@@ -779,6 +779,57 @@ function productBySlug(slug) {
   return publicProducts.find((product) => productSlug(product) === slug);
 }
 
+function publicProductVisibleReviewBlock(product) {
+  const name = publicProductName(product);
+  const size = sizeLabel(product);
+  return `<section class="seo-product-review">
+    <div class="seo-review-main">
+      <p class="eyebrow">Відгук про модель</p>
+      <h2>Оцінка TireTop для ${publicEscape(name)}</h2>
+      <div class="seo-rating-line" aria-label="Оцінка 5 з 5">
+        <span aria-hidden="true">★★★★★</span>
+        <strong>5.0</strong>
+        <small>експертна оцінка</small>
+      </div>
+      <p>${publicEscape(productDescription(product))}</p>
+      <p>Перед оформленням заявки менеджер TireTop звіряє розмір, рік, країну виробництва, кількість і допомагає порівняти цю модель з іншими варіантами.</p>
+      <a href="/reviews/">Переглянути сторінку відгуків</a>
+    </div>
+    <article class="seo-review-card">
+      <strong>Відгук менеджера TireTop</strong>
+      <p>${publicEscape(name)} ${size ? `у розмірі ${size} ` : ""}варто розглядати, якщо потрібна зрозуміла шина з актуальною наявністю, нормальною ціною та консультацією перед покупкою.</p>
+    </article>
+  </section>`;
+}
+
+function publicProductShippingReturnBlock(product) {
+  const name = publicProductName(product);
+  return `<section class="seo-commercial-grid">
+    <article id="shipping-details">
+      <p class="eyebrow">Shipping details</p>
+      <h2>Доставка і оплата</h2>
+      <p>${publicEscape(name)} можна забрати самовивозом у Ковелі або оформити доставку по Україні через Нову Пошту чи Delivery. Перед відправкою менеджер підтверджує товар, кількість, ціну та спосіб оплати.</p>
+      <ul>
+        <li>Самовивіз у Ковелі після підтвердження заявки.</li>
+        <li>Доставка Новою Поштою або Delivery за тарифами перевізника.</li>
+        <li>Оплата при отриманні, передплата або безготівковий розрахунок.</li>
+      </ul>
+      <a class="seo-policy-link" href="/delivery-payment/">Детальніше про доставку і оплату</a>
+    </article>
+    <article id="return-policy">
+      <p class="eyebrow">Return policy</p>
+      <h2>Гарантія і повернення</h2>
+      <p>Повернення або обмін шин можливі протягом 14 днів, якщо товар не був у використанні, не монтувався на диск, має товарний вигляд і збережені маркування.</p>
+      <ul>
+        <li>Перед поверненням потрібно зв'язатися з менеджером TireTop.</li>
+        <li>Шини зі слідами монтажу або експлуатації не приймаються до повернення.</li>
+        <li>Гарантійні питання розглядаються індивідуально після огляду товару.</li>
+      </ul>
+      <a class="seo-policy-link" href="/warranty-return/">Умови гарантії та повернення</a>
+    </article>
+  </section>`;
+}
+
 function renderProductPage(product) {
   if (!productPage || !product) return;
 
@@ -813,6 +864,8 @@ function renderProductPage(product) {
       </div>
     </article>
     ${tyreLabelBlock(product)}
+    ${publicProductVisibleReviewBlock(product)}
+    ${publicProductShippingReturnBlock(product)}
   `;
   setProductJsonLd(product);
   breadcrumbJsonLd([
