@@ -1488,13 +1488,15 @@ for (const page of [...localSeoPages, ...localSizeSeoPages]) {
 for (const page of infoPages) {
   const canonical = `/${page.slug}/`;
   const structuredData = breadcrumb([{ name: "Головна", path: "/" }, { name: page.h1, path: canonical }]);
-  writeFile(`${page.slug}/index.html`, pageShell({
+  const infoPageHtml = pageShell({
     title: page.title,
     description: page.description,
     canonical,
     body: infoPageBody(page),
     structuredData
-  }));
+  });
+  writeFile(`${page.slug}/index.html`, infoPageHtml);
+  writeFile(`${page.slug}.html`, infoPageHtml);
 }
 
 const catalogSource = fs.readFileSync(path.join(root, "index.html"), "utf8")
@@ -1528,18 +1530,18 @@ fs.writeFileSync(path.join(root, "sitemap.xml"), sitemap, "utf8");
 fs.writeFileSync(path.join(root, "_redirects"), [
   "/catalog /catalog/index.html 200",
   "/catalog/ /catalog/index.html 200",
-  "/delivery-payment /delivery-payment/index.html 200",
-  "/delivery-payment/ /delivery-payment/index.html 200",
-  "/warranty-return /warranty-return/index.html 200",
-  "/warranty-return/ /warranty-return/index.html 200",
-  "/contacts /contacts/index.html 200",
-  "/contacts/ /contacts/index.html 200",
-  "/reviews /reviews/index.html 200",
-  "/reviews/ /reviews/index.html 200",
-  "/about /about/index.html 200",
-  "/about/ /about/index.html 200",
-  "/privacy /privacy/index.html 200",
-  "/privacy/ /privacy/index.html 200"
+  "/delivery-payment /delivery-payment.html 200",
+  "/delivery-payment/ /delivery-payment.html 200",
+  "/warranty-return /warranty-return.html 200",
+  "/warranty-return/ /warranty-return.html 200",
+  "/contacts /contacts.html 200",
+  "/contacts/ /contacts.html 200",
+  "/reviews /reviews.html 200",
+  "/reviews/ /reviews.html 200",
+  "/about /about.html 200",
+  "/about/ /about.html 200",
+  "/privacy /privacy.html 200",
+  "/privacy/ /privacy.html 200"
 ].join("\n") + "\n", "utf8");
 
 console.log(`Generated ${products.length} product pages, ${focusBrands.length} brand pages, ${uniqueSizes.length} size pages, ${carFitments.length} car pages.`);
