@@ -714,11 +714,11 @@ function pageShell({ title, description, canonical, body, structuredData = "" })
       <input class="nav-toggle" id="siteNavToggle" type="checkbox" aria-label="Відкрити меню" />
       <label class="nav-toggle-button" for="siteNavToggle" aria-hidden="true"><span></span><span></span><span></span></label>
       <nav class="public-nav" aria-label="Навігація">
-        <a href="/catalog" ${["/catalog", "/tyres", "/brand", "/size"].some((path) => canonical.startsWith(path)) ? 'aria-current="page"' : ""}>Каталог</a>
-        <a href="/delivery-payment" ${canonical.startsWith("/delivery-payment") ? 'aria-current="page"' : ""}>Доставка і оплата</a>
-        <a href="/warranty-return" ${canonical.startsWith("/warranty-return") ? 'aria-current="page"' : ""}>Гарантія і повернення</a>
-        <a href="/reviews" ${canonical.startsWith("/reviews") ? 'aria-current="page"' : ""}>Відгуки</a>
-        <a href="/contacts" ${canonical.startsWith("/contacts") ? 'aria-current="page"' : ""}>Контакти</a>
+        <a href="/catalog/" ${["/catalog", "/tyres", "/brand", "/size"].some((path) => canonical.startsWith(path)) ? 'aria-current="page"' : ""}>Каталог</a>
+        <a href="/delivery-payment/" ${canonical.startsWith("/delivery-payment") ? 'aria-current="page"' : ""}>Доставка і оплата</a>
+        <a href="/warranty-return/" ${canonical.startsWith("/warranty-return") ? 'aria-current="page"' : ""}>Гарантія і повернення</a>
+        <a href="/reviews/" ${canonical.startsWith("/reviews") ? 'aria-current="page"' : ""}>Відгуки</a>
+        <a href="/contacts/" ${canonical.startsWith("/contacts") ? 'aria-current="page"' : ""}>Контакти</a>
       </nav>
       <a class="header-phone" href="tel:+380977879921">+38 (097) 787-99-21</a>
     </header>
@@ -1502,7 +1502,7 @@ const catalogSource = fs.readFileSync(path.join(root, "index.html"), "utf8")
   .replace(/<body class="public-site retail-page">/, `<body class="public-site retail-page catalog-page">`)
   .replace(/<link rel="canonical" href="[^"]+" \/>/, `<link rel="canonical" href="${siteOrigin}/catalog" />`)
   .replace(/<meta name="description" content="[^"]*" \/>/, `<meta name="description" content="Каталог шин TireTop: літні, зимові та всесезонні шини для легкових авто і SUV. Підбір по розміру, бренду та бюджету." />`)
-  .replace('<a href="/catalog">', '<a href="/catalog" aria-current="page">');
+  .replace('<a href="/catalog/">', '<a href="/catalog/" aria-current="page">');
 writeFile("catalog/index.html", catalogSource);
 
 const sitemapUrls = [

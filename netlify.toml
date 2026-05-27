@@ -1,0 +1,34 @@
+[[redirects]]
+  from = "/catalog"
+  to = "/catalog/"
+  status = 301
+
+[[redirects]]
+  from = "/delivery-payment"
+  to = "/delivery-payment/"
+  status = 301
+
+[[redirects]]
+  from = "/warranty-return"
+  to = "/warranty-return/"
+  status = 301
+
+[[redirects]]
+  from = "/reviews"
+  to = "/reviews/"
+  status = 301
+
+[[redirects]]
+  from = "/contacts"
+  to = "/contacts/"
+  status = 301
+
+[[redirects]]
+  from = "/about"
+  to = "/about/"
+  status = 301
+
+[[redirects]]
+  from = "/privacy"
+  to = "/privacy/"
+  status = 301
